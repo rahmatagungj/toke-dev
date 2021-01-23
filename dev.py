@@ -3,7 +3,7 @@
 import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request
 import colorama
 from colorama import Fore,Back,Style
-import smtplib
+import smtplib,ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
@@ -147,7 +147,7 @@ def email(emailed,file,key):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             try:
                 server.login(sender_address, sender_pass)
-                server.sendmail(sender_address, receiver_address, text)
+                server.sendmail(sender_address, str(emailed), text)
                 print('Success!')
             except:
                 print("Failed!")
