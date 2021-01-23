@@ -95,6 +95,13 @@ def decrypt(l1,l2,key):
         text = str('failed')
     return text 
 
+def isOnline():
+    try:
+        result = urllib.request.urlopen(f'https://github.com/',timeout=10)
+        return True
+    except Exception as e:
+        return False
+
 def email(emailed,file,key):
     if not isOnline():
         return print(f'{Back.YELLOW} ! {Back.BLACK}Unable to send email when you are offline!')
