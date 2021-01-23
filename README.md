@@ -3,6 +3,10 @@
 # TOKE DEVELOPMENT 
 This is the environment for developing the TOKE system, make sure everything is done according to development procedures and targets.
 
+# INSTALLATION
+
+    pip install -r requirements.txt
+
 # BEFORE BUILD
 1. [Oxyry Obfuscator](https://pyob.oxyry.com/)
 
