@@ -1,10 +1,17 @@
+# Copyright (c) 2020-2021 Rahmat Agung Julians
+
 import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request
 import colorama
 from colorama import Fore,Back,Style
+import smtplib,ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+from os.path import basename
 
 colorama.init(autoreset=True,wrap=True)
 
-VERSION = 'v.1.3'
+VERSION = 'v.1.4'
 
 def keygen_make(s):
     keygens = '';toPull = '';pKey = ''
@@ -21,14 +28,14 @@ def keygen_make(s):
         esum = str(esum) + '|'
         keygens += str(esum)
         pKey += str(toPull) + '|'
-    keygens = '|' + keygens
-    return keygens[::-1],'|' + pKey
+    pKey = '|' + pKey
+    return '|' + keygens,pKey[::-1]
 
 def keygen_hash(s,r):
     check = 0;cek=''
-    s = s[::-1].replace("|"," ")
+    s = s.replace("|"," ")
     s = s.split()
-    r = r.replace("|"," ")  
+    r = r[::-1].replace("|"," ")  
     r = r.split()
     for _v,i in enumerate(s):
         if i.isnumeric(): 
@@ -39,12 +46,23 @@ def keygen_hash(s,r):
         check += 1
     return cek
     
-def encrypt(text):
+def encrypt(text,key):
     text = text[::-1]
-    curr = ''
+    curr = '';curr_key = ''
+    if key != '':
+        if ' ' in key:
+            return "failed"
+        elif not len(str(key)) == 4:
+            return "failed"
+        for k in str(key):
+            curr_key += str(ord(k)) + ' '
+        curr_key = curr_key.split()
+        key = int(curr_key[0]) + int(curr_key[1]) * int(curr_key[2]) - int(curr_key[3])
+    else:
+        key = 23
     try:
         for i in text:
-            a = ord(i) + 23
+            a = ord(i) + key
             curr += chr(a) 
         text = ''.join(curr.encode().hex())
         text = keygen_make(text)
@@ -52,19 +70,89 @@ def encrypt(text):
         text = str('failed')
     return text
         
-def decrypt(l1,l2):
+def decrypt(l1,l2,key):
     text = keygen_hash(l1,l2)
-    curr = ''
+    curr = '';curr_key = '';pop = 0
+    if key != '':
+        if ' ' in key:
+            return "failed"
+        elif not len(str(key)) == 4:
+            return "failed"
+        for k in str(key):
+            curr_key += str(ord(k)) + ' '
+        curr_key = curr_key.split()
+        key = int(curr_key[0]) + int(curr_key[1]) * int(curr_key[2]) - int(curr_key[3])
+    else:
+        key = 23
     try:
         text = bytes.fromhex(text).decode('utf-8')
         text = text[::-1]
         for i in text:
-            a = ord(i) - 23
+            a = ord(i) - key
             curr += chr(a)
         text = curr
     except:
         text = str('failed')
     return text 
+
+def isOnline():
+    try:
+        result = urllib.request.urlopen(f'https://github.com/',timeout=10)
+        return True
+    except Exception as e:
+        return False
+
+def email(emailed,file,key):
+    if not isOnline():
+        return print(f'{Back.YELLOW} ! {Back.BLACK}Unable to send email when you are offline!')
+    mail_content = f'''
+    Hi {os.getlogin()}.
+
+    File "{file}"" has been successfully encrypted, the following is the detailed information:
+
+    Original File        : {file}
+    Encrypted File    : {os.path.splitext(file)[0]}.tl1e , {os.path.splitext(file)[0]}.tl2e
+    PIN code            : {str(key)}
+
+    Here are the original files and encrypted files, thank you for using TOKE.
+    * Make sure you save this information along with the PIN code to open the encrypted files.
+
+                                                                                                      Thanks and Regards
+                                                                                                     Rahmat Agung Julians
+                                                                                                            ( Developer )
+    '''
+    sender_address = 'toke.system@gmail.com'
+    sender_pass = 'pzolhdonudngbotf'
+    message = MIMEMultipart()
+    message['From'] = "TOKE SYSTEM"
+    message['To'] = str(emailed)
+    message['Subject'] = f'File "{file}"" has been successfully encrypted'
+    message.attach(MIMEText('<img src="https://raw.githubusercontent.com/rahmatagungj/toke/main/Documentation/LOGO%20PANJANG.png" width="350" style="padding-left: 95px;"/>', 'html', 'utf-8'))   
+    message.attach(MIMEText(mail_content, 'plain'))
+    # file 
+    files = [f'{os.path.splitext(file)[0]}.tl1e',f'{os.path.splitext(file)[0]}.tl2e']
+    for f in files:
+        with open(f, "rb") as fil:
+            part = MIMEApplication(
+                fil.read(),
+                Name=basename(f)
+            )
+        # After the file is closed
+        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
+        message.attach(part)
+    text = message.as_string()
+    #login
+    context = ssl.create_default_context()
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            try:
+                server.login(sender_address, sender_pass)
+                server.sendmail(sender_address, str(emailed), text)
+                print('Success!')
+            except:
+                print("Failed!")
+    except:
+        return print('Something went wrong...')
 
 def loading_bar(count,total,size):
     percent = float(count)/float(total)*100
@@ -89,7 +177,7 @@ def make_encrypt():
     print('\n')
     print(f"                   {Back.GREEN + Style.BRIGHT}      ENCRYPTION      {Back.BLACK + Style.RESET_ALL}\n")
     name_file = str(input(f"{Back.CYAN} * {Back.BLACK} Enter a file name (with the extension): "))
-    
+    key_file = str(input(f"{Back.CYAN} * {Back.BLACK} Enter PIN code (4 digits or blank): "))
     file_message = '{}'.format(name_file)
     if os.path.isfile(file_message):
         try:
@@ -101,7 +189,8 @@ def make_encrypt():
     else:
         print(f"{Back.YELLOW} ! {Back.BLACK} File Not Found!")
         make_try()
-    layer = encrypt(inp)
+    layer = encrypt(inp,key_file)
+    print("\n")
     if layer == 'failed':
         for i in range(0,101):
             loading_bar(i,100,2)
@@ -122,12 +211,18 @@ def make_encrypt():
                     print(f"\n{Back.CYAN} * {Back.BLACK} OUTPUT: ")
                     print('> {}.tl1e'.format(os.path.splitext(name_file)[0]))
                     print('> {}.tl2e'.format(os.path.splitext(name_file)[0]))
+                    ask_email = str(input(f"\n{Back.CYAN} * {Back.BLACK} Will you send encrypted data to email? (y) / (n): "))
+                    if ask_email == 'y' or ask_email == 'yes':
+                        emailed = str(input(f"{Back.CYAN} * {Back.BLACK} Enter email address: "))
+                        print(f"\nSending email to {emailed} .... ",end="")
+                        email(emailed,name_file,key_file)
     
 def make_decrypt():     
     print("\n")
     print(f"                   {Back.GREEN + Style.BRIGHT}      DECRYPTION      {Back.BLACK + Style.RESET_ALL}\n")
     name_file_decrypt = str(input(f"{Back.CYAN} * {Back.BLACK} Enter a TOKE file name (without the extension): ")) 
-    name_file_decrypt_format = str(input(f"{Back.CYAN} * {Back.BLACK} Enter the output file extension name: ")) 
+    name_file_decrypt_format = str(input(f"{Back.CYAN} * {Back.BLACK} Enter the output file extension name: "))
+    key_file = str(input(f"{Back.CYAN} * {Back.BLACK} Enter PIN code (4 digits or blank): ")) 
     layer1_key = '{}.tl1e'.format(name_file_decrypt)
     layer2_key = '{}.tl2e'.format(name_file_decrypt)
     if os.path.isfile(layer1_key):
@@ -140,7 +235,8 @@ def make_decrypt():
                     c = c.read()
                         
                     with open('{}.{}'.format(name_file_decrypt,name_file_decrypt_format), 'w') as x_file:
-                        curr_dec = decrypt(b,c)
+                        curr_dec = decrypt(b,c,key_file)
+                        print("\n")
                         for i in range(0,101):
                             loading_bar(i,100,2)
                             time.sleep(0.01)
