@@ -1,4 +1,7 @@
 !["Two Original Key Encryption"](./Documentation/LOGO%20PANJANG%20WITH%20BG.png "Two Original Key Encryption")
+<p align="center"> 
+    <a href="https://www.python.org/"><img alt="made-with-python" src="http://ForTheBadge.com/images/badges/made-with-python.svg"></a>
+</p>
 
 # TOKE DEVELOPMENT 
 This is the environment for developing the TOKE system, make sure everything is done according to development procedures and targets.
