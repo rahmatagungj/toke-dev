@@ -96,6 +96,8 @@ def decrypt(l1,l2,key):
     return text 
 
 def email(emailed,file,key):
+    if not isOnline():
+        return print(f'{Back.YELLOW} ! {Back.BLACK}Unable to send email when you are offline!')
     mail_content = f'''
     Hi {os.getlogin()}.
 
@@ -113,11 +115,10 @@ def email(emailed,file,key):
                                                                                                             ( Developer )
     '''
     sender_address = 'toke.system@gmail.com'
-    sender_pass = 'RAJulians101012345'
-    receiver_address = str(emailed)
+    sender_pass = 'pzolhdonudngbotf'
     message = MIMEMultipart()
     message['From'] = "TOKE SYSTEM"
-    message['To'] = receiver_address
+    message['To'] = str(emailed)
     message['Subject'] = f'File "{file}"" has been successfully encrypted'
     message.attach(MIMEText('<img src="https://raw.githubusercontent.com/rahmatagungj/toke/main/Documentation/LOGO%20PANJANG.png" width="350" style="padding-left: 95px;"/>', 'html', 'utf-8'))   
     message.attach(MIMEText(mail_content, 'plain'))
@@ -132,18 +133,19 @@ def email(emailed,file,key):
         # After the file is closed
         part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
         message.attach(part)
-    #login
-    session = smtplib.SMTP('smtp.gmail.com', 587) 
-    session.starttls() 
-    session.login(sender_address, sender_pass) 
     text = message.as_string()
+    #login
+    context = ssl.create_default_context()
     try:
-        session.sendmail(sender_address, receiver_address, text)
-        print('Success!')
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            try:
+                server.login(sender_address, sender_pass)
+                server.sendmail(sender_address, receiver_address, text)
+                print('Success!')
+            except:
+                print("Failed!")
     except:
-        print("Failed!")
-    finally:
-        session.quit()
+        return print('Something went wrong...')
 
 def loading_bar(count,total,size):
     percent = float(count)/float(total)*100
