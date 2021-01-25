@@ -1,7 +1,15 @@
-import unittest
+import unittest,time
 from main import *
 
 class TestFunction(unittest.TestCase):
+
+    currentResult = None # Holds last result object passed to run method
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
 
     def test_keygen_make(self):
         key = keygen_make('halo')
@@ -23,7 +31,6 @@ class TestFunction(unittest.TestCase):
         self.assertEqual(toBeDecrypt,'halo')
 
     def test_isOnline(self):
-        self.assertTrue(isOnline)
         self.assertEqual(isOnline(), True)
 
     def test_isEmail(self):
@@ -32,4 +39,6 @@ class TestFunction(unittest.TestCase):
         self.assertEqual(isEmail('toke.system@gmail'), False)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    test = unittest.main(verbosity=2,exit=False)
+    print(test.result)
+    time.sleep(15)
