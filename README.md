@@ -12,7 +12,10 @@ This is the environment for developing the TOKE system, make sure everything is 
 
 # BEFORE BUILD
 1. Run unit_text.py and make sure all functions have been checked in ok condition
+2. Run Python Compile (.py to .pyc) 
 
+        python -m compileall main.py
+    
 # BUILD
 1. Run [auto-py-to-exe](https://github.com/brentvollebregt/auto-py-to-exe)
 2. Import [Config.json](https://github.com/rahmatagungj/toke-dev/blob/main/config.json)
