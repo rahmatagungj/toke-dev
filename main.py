@@ -1,7 +1,7 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
 import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request
-import colorama
+import colorama,re
 from colorama import Fore,Back,Style
 import smtplib,ssl
 from email.mime.multipart import MIMEMultipart
@@ -10,17 +10,15 @@ from email.mime.application import MIMEApplication
 from os.path import basename
 
 colorama.init(autoreset=True,wrap=True)
-
 VERSION = 'v.1.4'
-
+ 
 def keygen_make(s):
     keygens = '';toPull = '';pKey = ''
     hour24 = datetime.datetime.now().strftime("%H")
     hour12 = datetime.datetime.now().strftime("%I")
     second60 = datetime.datetime.now().strftime("%S")
-    curr_clock = int(int(hour24)/int(hour12))
     for i in s:
-        toPull = random.randint(int(second60),int(len(s)+curr_clock+int(second60)))
+        toPull = random.randint(int(second60),int(len(s)+int(second60)))
         if i.isnumeric():
             esum = int(int(i) * toPull)
         else:
@@ -102,9 +100,25 @@ def isOnline():
     except Exception as e:
         return False
 
+def isEmail(email):  
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if(re.search(regex,email)):  
+        return True  
+    else:  
+        return False 
+
+def try_email(file,key):
+    emailed = str(input(f'{Back.CYAN} * {Back.BLACK} Enter email address: '))
+    print(f"\nSending email to {emailed} .... ",end="")
+    email(emailed,file,key)
+
 def email(emailed,file,key):
     if not isOnline():
         return print(f'{Back.YELLOW} ! {Back.BLACK}Unable to send email when you are offline!')
+    if not isEmail(str(emailed)):
+        print(f' invalid email!\n')
+        try_email(file,key)
+        return 
     mail_content = f'''
     Hi {os.getlogin()}.
 
@@ -121,8 +135,6 @@ def email(emailed,file,key):
                                                                                                      Rahmat Agung Julians
                                                                                                             ( Developer )
     '''
-    sender_address = 'toke.system@gmail.com'
-    sender_pass = 'pzolhdonudngbotf'
     message = MIMEMultipart()
     message['From'] = "TOKE SYSTEM"
     message['To'] = str(emailed)
@@ -137,7 +149,6 @@ def email(emailed,file,key):
                 fil.read(),
                 Name=basename(f)
             )
-        # After the file is closed
         part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
         message.attach(part)
     text = message.as_string()
@@ -146,11 +157,11 @@ def email(emailed,file,key):
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             try:
-                server.login(sender_address, sender_pass)
-                server.sendmail(sender_address, str(emailed), text)
-                print('Success!')
+                server.login('toke.system@gmail.com','pzolhdonudngbotf')
+                server.sendmail('toke.system@gmail.com', str(emailed), text)
+                return print('Success!')
             except:
-                print("Failed!")
+                return print("Failed!")
     except:
         return print('Something went wrong...')
 
@@ -233,7 +244,6 @@ def make_decrypt():
                 if os.path.splitext(layer2_key)[1] == ".tl2e":
                     c = open(layer2_key, 'r')
                     c = c.read()
-                        
                     with open('{}.{}'.format(name_file_decrypt,name_file_decrypt_format), 'w') as x_file:
                         curr_dec = decrypt(b,c,key_file)
                         print("\n")
@@ -245,6 +255,7 @@ def make_decrypt():
                                     print('Decryption failed!')
                                 else:
                                     x_file.write(curr_dec)
+                                    x_file.close()
                                     print(' Decryption Success!')
                                     print(f"\n{Back.CYAN} * {Back.BLACK} OUTPUT: ")
                                     print('> {}.{}'.format(name_file_decrypt,name_file_decrypt_format))
@@ -345,11 +356,6 @@ def main():
         main()
     make_try()
 
-def Finished():
-    winsound.Beep(1000, 100)
-    winsound.Beep(1200, 100)
-    winsound.Beep(1400, 100)
-
 def init():
     passed = 0
     os.system(f'title TOKE - Two Original Key Encryption {VERSION}')
@@ -417,7 +423,9 @@ def init():
 if __name__ == "__main__":
     os.system('mode 60,37')
     if init() > 5:
-        Finished()
+        winsound.Beep(1000, 100)
+        winsound.Beep(1200, 100)
+        winsound.Beep(1400, 100)
         try:
             main()   
         except KeyboardInterrupt:
