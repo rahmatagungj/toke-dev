@@ -11,7 +11,7 @@ This is the environment for developing the TOKE system, make sure everything is 
     pip install -r requirements.txt
 
 # BEFORE BUILD
-1. [Oxyry Obfuscator](https://pyob.oxyry.com/)
+1. Run unit_text.py and make sure all functions have been checked in ok condition
 
 # BUILD
 1. Run [auto-py-to-exe](https://github.com/brentvollebregt/auto-py-to-exe)
