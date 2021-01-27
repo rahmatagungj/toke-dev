@@ -1,1 +1,4 @@
 colorama
+pyinstaller
+pyinstaller[encryption]
+auto-py-to-exe
