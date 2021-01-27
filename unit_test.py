@@ -86,4 +86,4 @@ class TestFunction(unittest.TestCase):
 if __name__ == '__main__':
     test = unittest.main(verbosity=3,exit=False)
     print('RESULT : ', test.result)
-    time.sleep(15)
+    time.sleep(30)
