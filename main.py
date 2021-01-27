@@ -1,6 +1,7 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
-import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request
+import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request,ctypes
+from datetime import date
 import colorama,re
 from colorama import Fore,Back,Style
 import smtplib,ssl
@@ -10,8 +11,140 @@ from email.mime.application import MIMEApplication
 from os.path import basename
 
 colorama.init(autoreset=True,wrap=True)
-VERSION = 'v.1.4'
- 
+
+# GLOBAL VARIABLE
+VERSION = 'v.1.5'
+MessageBox = ctypes.windll.user32.MessageBoxW
+
+def rand_sleep(start,end):
+    randomis = random.uniform(start,end)
+    return time.sleep(randomis)
+
+def isExpired(datet):
+    datet = str(datet)
+    ExpirationDate = datetime.datetime.strptime(datet,"%Y-%m-%d").date()
+    now = "{:%Y-%m-%d}".format(date.today())
+    if str(ExpirationDate) <= now:
+        return True
+    else:
+        return False
+
+def check_regist(name,key):
+    curr = '';curr_num = 1;real = '';last = ''
+    ndate = ''; tdate = ''
+    key = key.replace("-"," ")
+    mins = key.split()
+    mins = mins[10][::-1]
+    # for date expired
+    for k in key.split()[:10:]:
+        ndate += str(k[::-1]) + ' '
+    for l in ndate.split():
+        tdate += str(chr(int(l) - int(mins)))
+    # for username
+    for j in key.split()[11::]:
+        last += str(j[::-1]) + ' '
+    for i in last.split():
+        curr += str(chr((int(i) - int(mins))))
+        curr_num += 1
+    if name == curr and isExpired(tdate) :
+        return 'expired'
+    elif name == curr and not isExpired(tdate) :
+        return 'valid'
+    else:
+        return 'invalid'
+    return name,curr
+
+def write_license(username,license):
+    content = username + '\n' + license
+    with open('license.tlic','w') as lic:
+        lic.write(content)
+        lic.close()
+        return True
+
+def status_license():
+    filename = open('license.tlic','r')
+    inside = filename.read()
+    try:
+        fusername = inside.split()[0]
+        fserial = inside.split()[1]
+        filename.close()
+    except:
+        MessageBox(0, 'The license file does not contain a valid user license.', 'TOKE SYSTEM',16)
+        filename.close()
+        try:
+            os.remove("license.tlic")
+        except:
+            MessageBox(0, 'Unable to delete license file automatically, please delete the license file before running the application.', 'TOKE SYSTEM',16)
+        check_license()
+        return 'invalid'
+    if check_regist(fusername,fserial) == 'expired':
+        return "expired"
+    elif check_regist(fusername,fserial) == 'valid':
+        return 'valid'
+    else:
+        return 'invalid'
+
+def open_license():
+    if os.path.isfile('license.tlic'):
+        filename = open('license.tlic','r')
+        inside = filename.read()
+        fusername = inside.split()[0]
+        fserial = inside.split()[1]
+        filename.close()
+    else:
+        fusername = 'None'
+        fserial = 'None'
+    return fusername,fserial
+
+def check_license():
+    global forusername
+    os.system('cls')
+    os.system('mode 60,37')
+    if os.path.isfile('license.tlic'):
+        try:
+            if status_license() == 'valid':
+                forusername = open_license()[0]
+                main()
+            elif status_license() == 'expired':
+                MessageBox(0, 'License Expired.', 'TOKE SYSTEM',64)
+                if os.path.exists("license.tlic"):
+                  os.remove("license.tlic")
+                  check_license()
+                else:
+                  MessageBox(0, 'The License does not exist.', 'TOKE SYSTEM',16)
+                  check_license()
+            else:
+                MessageBox(0, 'Invalid License.', 'TOKE SYSTEM',16)
+                check_license()
+        except:
+            exit()
+    else:
+        os.system(f'title TOKE - Unregistered')
+        username = input(str("Enter username : "))
+        license = input(str("Enter the serial number : "))
+        try:
+            if check_regist(username,license) == 'valid':
+                if write_license(username,license):
+                    check_license()
+                else:
+                    t_error = MessageBox(None, 'Oops, something went wrong.', 'TOKE SYSTEM',2)
+                    if t_error == 3:
+                        exit()
+                    elif t_error == 4:
+                        check_license()
+            elif check_regist(username,license) == 'expired':
+                MessageBox(0, 'License Expired.', 'TOKE SYSTEM',64)
+                os.system('cls')
+                check_license()
+            else:
+                MessageBox(0, 'Invalid License.', 'TOKE SYSTEM',16)
+                os.system('cls')
+                check_license()
+        except:
+            MessageBox(0, 'Invalid License.', 'TOKE SYSTEM',16)
+            os.system('cls')
+            check_license()
+
 def keygen_make(s):
     keygens = '';toPull = '';pKey = ''
     hour24 = datetime.datetime.now().strftime("%H")
@@ -171,18 +304,19 @@ def loading_bar(count,total,size):
 
 def make_update():
     print('\n')
-    print(f"               {Back.GREEN + Style.BRIGHT}      CHECK FOR UPDATES      {Back.BLACK + Style.RESET_ALL}\n")
+    print(f"              {Back.GREEN + Style.BRIGHT}     CHECKING FOR UPDATES      {Back.BLACK + Style.RESET_ALL}\n")
     try:
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-        print(f'''  The application has a new version (v.{int(VERSION[2]) + 1}.0), visit: {Fore.BLUE}https:
-  //github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0''')
+        MessageBox(0, f'''  The application has a new version (v.{int(VERSION[2]) + 1}.0), visit: {Fore.BLUE}https:
+  //github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0''', 'TOKE SYSTEM',64)
     except:
         try:
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-            print(f'''  The application has a new version (v.{VERSION[2]}.{int(VERSION[4]) + 1}), visit: {Fore.BLUE}https:
-  //github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}''')
+            MessageBox(0, f'''  The application has a new version (v.{VERSION[2]}.{int(VERSION[4]) + 1}), visit: {Fore.BLUE}https:
+  //github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}''', 'TOKE SYSTEM',64)
         except:
-            print(f'''  The application is up to date.''')
+            MessageBox(0, f'''  The application is up to date.''', 'TOKE SYSTEM',64)
+    main()
 
 def make_encrypt():
     print('\n')
@@ -195,11 +329,11 @@ def make_encrypt():
             inp = open(file_message, 'r')
             inp = inp.read()
         except:
-            print(f"{Back.YELLOW} ! {Back.BLACK} File Not Supported!")
-            make_try()
+            MessageBox(0, 'File Not Supported!', 'TOKE SYSTEM',16)
+            main()
     else:
-        print(f"{Back.YELLOW} ! {Back.BLACK} File Not Found!")
-        make_try()
+        MessageBox(0, 'File Not Found!', 'TOKE SYSTEM',16)
+        main()
     layer = encrypt(inp,key_file)
     print("\n")
     if layer == 'failed':
@@ -269,15 +403,15 @@ def make_decrypt():
                                             print('- {} file failed to delete!'.format(layer2_key))
                                         else:
                                             print('- {} file deleted successfully!'.format(layer2_key)) 
-                                            make_try()               
+                                            make_ask()               
                 else:
-                    print(f"{Back.YELLOW} ! {Back.BLACK} Files are not part of the encryption layer 2")
+                    MessageBox(0, 'Files are not part of the encryption layer 2.', 'TOKE SYSTEM',16)
             else:
-                print(f"{Back.YELLOW} ! {Back.BLACK} File Not Found!")
+                MessageBox(0, 'File Not Found!', 'TOKE SYSTEM',16)
         else:
-            print(f"{Back.YELLOW} ! {Back.BLACK} Files are not part of the encryption layer 1")
+            MessageBox(0, 'Files are not part of the encryption layer 1.', 'TOKE SYSTEM',16)
     else:
-        print(f"{Back.YELLOW} ! {Back.BLACK} File Not Found!")
+        MessageBox(0, 'File Not Found!', 'TOKE SYSTEM',16)
 
 def make_help():
     print("\n")
@@ -293,7 +427,7 @@ def make_help():
   files, namely TL1E and TL2E, if the two match, the orig
   inal file will be translated.Make sure the file to be d
   ecrypted is in the TOKE application folder.''')
-    make_try()
+    make_ask()
 
 def make_about():
     print("\n")
@@ -308,22 +442,20 @@ def make_about():
     print(f'''\n{Back.MAGENTA} * {Back.BLACK} AUTHOR''')
     print(f'''\n  Rahmat Agung Julians, Indonesia. Contact : {Fore.BLUE + Style.BRIGHT}https://gith
   ub.com/rahmatagungj/toke''')
-    make_try()
+    make_ask()
 
-def make_try():
+def make_ask():
     print("\n")
-    p = str(input(f"{Back.MAGENTA} ? {Back.BLACK} Back to menu? (y) / (n) :"))
-    if p == 'y' or p == 'yes':
+    p = str(input(f"{Back.MAGENTA} ? {Back.BLACK} Press ENTER to continue ... "))
+    if p == '' or p == ' ':
         main()
-    elif p == 'n' or p == 'no':
-        exit()
     else:
-        exit()
-        
+        main()     
+
 def main():
     times = datetime.datetime.now()
     os.system('cls')
-    os.system(f'title TOKE - Two Original Key Encryption {VERSION}')
+    os.system(f'title TOKE - Registered for {forusername}')
     os.system('mode 60,37')
     print(f'''
           {Fore.RED}
@@ -354,13 +486,29 @@ def main():
         exit()
     else:
         main()
-    make_try()
+    make_ask()
 
 def init():
     passed = 0
     os.system(f'title TOKE - Two Original Key Encryption {VERSION}')
     try:
-        print(f"[*] Customizing Interface ...",end="")
+        print(f"[*] Checking Operating System ...\t\t",end="")
+        rand_sleep(0,0.5)
+        if os.name == 'nt':
+            print(" Success") 
+            winsound.Beep(1000, 200) 
+            passed += 1
+        else:
+            passed = 0
+            return passed
+    except Exception as e:
+        print(e)
+        print(" Failed")
+        winsound.Beep(1000, 1000)
+
+    try:
+        print(f"[*] Customizing Interface ...\t\t\t",end="")
+        rand_sleep(0,0.5)
         if callable(main):
             print(" Success") 
             winsound.Beep(1000, 200) 
@@ -370,7 +518,8 @@ def init():
         winsound.Beep(1000, 1000)
 
     try:
-        print(f"[*] Checking Encryption Algorithm ...",end="")
+        print(f"[*] Checking Encryption Algorithm ...\t\t",end="")
+        rand_sleep(0,0.5)
         if callable(encrypt):
             print(" Success") 
             winsound.Beep(1000, 200) 
@@ -380,7 +529,8 @@ def init():
         winsound.Beep(1000, 1000)
 
     try:
-        print(f"[*] Checking Decryption Algorithm ...",end="")
+        print(f"[*] Checking Decryption Algorithm ...\t\t",end="")
+        rand_sleep(0,0.5)
         if callable(decrypt):
             print(" Success") 
             winsound.Beep(1000, 200) 
@@ -390,7 +540,8 @@ def init():
         winsound.Beep(1000, 1000)
 
     try:
-        print("[*] Loading KEY Generator ...",end="")
+        print("[*] Loading KEY Generator ...\t\t\t",end="")
+        rand_sleep(0,0.5)
         if callable(keygen_make):
             print(" Success")
             winsound.Beep(1000, 200)
@@ -400,7 +551,8 @@ def init():
         winsound.Beep(1000, 1000)
 
     try:
-        print(f"[*] Running KEY Hash ...",end="")
+        print(f"[*] Running KEY Hash ...\t\t\t",end="")
+        rand_sleep(0,0.5)
         if callable(keygen_hash):
             print(" Success") 
             winsound.Beep(1000, 200) 
@@ -410,7 +562,8 @@ def init():
         winsound.Beep(1000, 1000)
 
     try:
-        print(f"[*] Check out additional systems ...",end="")
+        print(f"[*] Check out additional systems ...\t\t",end="")
+        rand_sleep(0,0.5)
         if callable(make_update):
             print(" Success") 
             winsound.Beep(1000, 200) 
@@ -422,17 +575,21 @@ def init():
 
 if __name__ == "__main__":
     os.system('mode 60,37')
-    if init() > 5:
-        winsound.Beep(1000, 100)
-        winsound.Beep(1200, 100)
-        winsound.Beep(1400, 100)
-        try:
-            main()   
-        except KeyboardInterrupt:
+    check_license() #DELETE THIS LINE BEFORE BUILD
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        if init() > 6:
+            winsound.Beep(1000, 100)
+            winsound.Beep(1200, 100)
+            winsound.Beep(1400, 100)
+            try:
+                check_license()
+            except KeyboardInterrupt:
+                exit()
+            except:
+                pass
+        else:
+            MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
             exit()
-        except:
-            pass
     else:
-        print("\n\nAn error occurred while running the TOKE system,\nContact: https://github.com/rahmatagungj/toke")
-        time.sleep(60)
+        MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
         exit()
