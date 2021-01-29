@@ -2,3 +2,5 @@ colorama
 pyinstaller
 pyinstaller[encryption]
 auto-py-to-exe
+playsound
+pywin32

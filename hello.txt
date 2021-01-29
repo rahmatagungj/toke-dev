@@ -1,6 +1,0 @@
-TOKE (Two Original Key Encryption) is a security method through encryption of data in the form of numbers and characters, this system uses a mathematical algorithm that can be used to secure certain messages. This service can convert ordinary messages in human language and files into more secure data.
-
-How does it work?
-The message files that enter the system will be converted into 2 files containing the message keys, the 2 files have different contents (in the form of numbers and characters).
-
--Rahmat Agung Julians

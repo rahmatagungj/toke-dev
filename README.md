@@ -14,24 +14,11 @@ This is the environment for developing the TOKE system, make sure everything is 
 1. Run unit_text.py and make sure all functions have been checked in ok condition
     
 # BUILD
-
-KEY = 'toke10-01-2021'
-
-### METHODE 1
-1. Run [auto-py-to-exe](https://github.com/brentvollebregt/auto-py-to-exe)
-2. Import [Config.json](https://github.com/rahmatagungj/toke-dev/blob/main/config.json)
+1. Run auto-py-to-exe
+2. Import config_64bit.json (for 64bit) / config_32bit.json (for 32bit)
 3. Start Build
 4. Make sure the program can run normally
 5. Push into Github [TOKE](https://github.com/rahmatagungj/toke)
-
-### METHODE 2
-1. Run CMD in Windows 
-2. Execution this command
-
-		pyinstaller --noconfirm --onefile --console --icon "F:/ALGORITHM/toke-dev/Documentation/LOGO.ico" --name "TOKE" --ascii --clean --key "toke10-01-2021"  "F:/ALGORITHM/toke-dev/main.py"
-
-3. Make sure the program can run normally
-4. Push into Github [TOKE](https://github.com/rahmatagungj/toke)
 
 Note : Make sure the directory location of the 'main.py' file and the ICON file are set.
 
