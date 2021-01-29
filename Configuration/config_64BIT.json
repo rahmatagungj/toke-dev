@@ -1,0 +1,81 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "F:/ALGORITHM/toke-dev/main.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": true
+  },
+  {
+   "optionDest": "console",
+   "value": true
+  },
+  {
+   "optionDest": "icon_file",
+   "value": "F:/ALGORITHM/toke-dev/Documentation/LOGO.ico"
+  },
+  {
+   "optionDest": "name",
+   "value": "TOKE_64bit"
+  },
+  {
+   "optionDest": "ascii",
+   "value": true
+  },
+  {
+   "optionDest": "clean_build",
+   "value": true
+  },
+  {
+   "optionDest": "strip",
+   "value": false
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "version_file",
+   "value": "F:/ALGORITHM/toke-dev/Configuration/file_version_info_64bit.txt"
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "win_private_assemblies",
+   "value": false
+  },
+  {
+   "optionDest": "win_no_prefer_redirects",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "datas",
+   "value": "F:/ALGORITHM/toke-dev/tshutdown.mp3;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "F:/ALGORITHM/toke-dev/tstartup.mp3;."
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}
