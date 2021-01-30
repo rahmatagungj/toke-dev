@@ -1,6 +1,6 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
-import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request,ctypes,threading,win32api
+import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request,ctypes,threading,win32api,requests
 from datetime import date
 import colorama,re
 from colorama import Fore,Back,Style
@@ -14,7 +14,7 @@ from playsound import playsound
 colorama.init(autoreset=True,wrap=True)
 
 # GLOBAL VARIABLE
-VERSION = 'v.1.5'
+VERSION = 'v.1.3'
 MessageBox = ctypes.windll.user32.MessageBoxW
 times = datetime.datetime.now()
 full_path = os.path.realpath(__file__)
@@ -290,8 +290,10 @@ def download_toke_64bit():
     time.sleep(0.1)
     try:
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-        get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_64bit.exe",stream=True)
+        get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE.exe",stream=True)
+        print("complete")
         with open('temp_TOKE_64bit.exe', 'wb') as f:
+            print("  Installing update ...\t\t\t",end="")
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
@@ -299,8 +301,10 @@ def download_toke_64bit():
     except:
         try:
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-            get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_64bit.exe",stream=True)
+            get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE.exe",stream=True)
+            print("complete")
             with open('temp_TOKE_64bit.exe', 'wb') as f:
+                print("  Installing update ...\t\t\t",end="")
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
@@ -313,18 +317,22 @@ def download_toke_64bit():
             bundle_dir = sys._MEIPASS
         else:
             bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_64bit.bat'))
-            file = os.path.join(bundle_dir, 'tinit_auto_update_64bit.bat')
-            os.startfile(r"{}".format(file))
-            exit()
+        file = os.path.join(bundle_dir, 'tinit_auto_update_64bit.bat')
+        os.startfile(r"{}".format(file))
     except:
         pass
+    print(f"\n\nThe application update installation is complete, please \nreopen the application.")
+    rand_sleep(4,6)
+    make_shutdown()
 
 def download_toke_32bit():
     time.sleep(0.1)
     try:
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-        get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_32bit.exe",stream=True)
+        get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE.exe",stream=True)
+        print("complete")
         with open('temp_TOKE_32bit.exe', 'wb') as f:
+            print("  Installing update ...\t\t\t",end="")
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
@@ -332,8 +340,10 @@ def download_toke_32bit():
     except:
         try:
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-            get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_32bit.exe",stream=True)
+            get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE.exe",stream=True)
+            print("complete")
             with open('temp_TOKE_32bit.exe', 'wb') as f:
+                print("  Installing update ...\t\t\t",end="")
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
@@ -346,14 +356,16 @@ def download_toke_32bit():
             bundle_dir = sys._MEIPASS
         else:
             bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_32bit.bat'))
-            file = os.path.join(bundle_dir, 'tinit_auto_update_32bit.bat')
-            os.startfile(r"{}".format(file))
-            exit()
+        file = os.path.join(bundle_dir, 'tinit_auto_update_32bit.bat')
+        os.startfile(r"{}".format(file))
     except:
         pass
+    print(f"\n\nThe application update installation is complete, please \nreopen the application.")
+    rand_sleep(4,6)
+    make_shutdown()
 
 def init_auto_update():
-    print(f'''\nDownloading Updates ...\t\t''',end="")
+    print("\n  Downloading Updates ...\t\t",end="")
     iver = os.path.split(sys.argv[0])[1][5:7:]
     if int(iver) == 32:
         download_toke_32bit()
