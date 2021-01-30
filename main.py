@@ -20,7 +20,7 @@ times = datetime.datetime.now()
 full_path = os.path.realpath(__file__)
 curr_path = os.getcwd().split('\\')[-1]
 CRASHED = False
-
+DEV_MODE = True
 
 def make_crashed():
     global CRASHED
@@ -292,6 +292,7 @@ def download_toke_64bit():
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
         get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_64bit.exe",stream=True)
         with open('temp_TOKE_64bit.exe', 'wb') as f:
+            os.system( "attrib +h temp_TOKE_64bit.exe" )
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
@@ -301,6 +302,7 @@ def download_toke_64bit():
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
             get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_64bit.exe",stream=True)
             with open('temp_TOKE_64bit.exe', 'wb') as f:
+                os.system( "attrib +h temp_TOKE_64bit.exe" )
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
@@ -325,6 +327,7 @@ def download_toke_32bit():
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
         get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_32bit.exe",stream=True)
         with open('temp_TOKE_32bit.exe', 'wb') as f:
+            os.system( "attrib +h temp_TOKE_32bit.exe" )
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
@@ -334,6 +337,7 @@ def download_toke_32bit():
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
             get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_32bit.exe",stream=True)
             with open('temp_TOKE_32bit.exe', 'wb') as f:
+                os.system( "attrib +h temp_TOKE_32bit.exe" )
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
@@ -351,7 +355,6 @@ def download_toke_32bit():
             exit()
     except:
         pass
-
 def init_auto_update():
     print(f'''\nDownloading Updates ...\t\t''',end="")
     iver = os.path.split(sys.argv[0])[1][5:7:]
@@ -1120,34 +1123,21 @@ def remove_license():
 
 if __name__ == "__main__":
     os.system('mode 60,37')
-    check_license()
-    if init() > 6:
-        # make_startup()
-        try:
-            check_license()
-        except KeyboardInterrupt:
-            make_shutdown()
-        except:
-            pass
+    if DEV_MODE:
+        forusername = 'RAHMATAGUNGJ'
+        main()
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        if init() > 6:
+            make_startup()
+            try:
+                check_license()
+            except KeyboardInterrupt:
+                make_shutdown()
+            except:
+                pass
+        else:
+            MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
+            exit()
     else:
-        CRASHED = True
         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
         exit()
-
-# if __name__ == "__main__":
-#     os.system('mode 60,37')
-#     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-#         if init() > 6:
-#             make_startup()
-#             try:
-#                 check_license()
-#             except KeyboardInterrupt:
-#                 make_shutdown()
-#             except:
-#                 pass
-#         else:
-#             MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
-#             exit()
-#     else:
-#         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
-#         exit()

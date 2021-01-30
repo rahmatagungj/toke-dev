@@ -332,6 +332,7 @@ def download_toke_32bit():
         get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE.exe",stream=True)
         print("complete")
         with open('temp_TOKE_32bit.exe', 'wb') as f:
+            os.system( "attrib +h temp_TOKE_32bit.exe" )
             print("  Installing update ...\t\t\t",end="")
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
@@ -343,6 +344,7 @@ def download_toke_32bit():
             get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE.exe",stream=True)
             print("complete")
             with open('temp_TOKE_32bit.exe', 'wb') as f:
+                os.system( "attrib +h temp_TOKE_32bit.exe" )
                 print("  Installing update ...\t\t\t",end="")
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
