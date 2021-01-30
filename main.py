@@ -21,6 +21,7 @@ full_path = os.path.realpath(__file__)
 curr_path = os.getcwd().split('\\')[-1]
 CRASHED = False
 
+
 def make_crashed():
     global CRASHED
     CRASHED = True
@@ -285,6 +286,82 @@ def isOnline():
     except:
         return False
 
+def download_toke_64bit():
+    time.sleep(0.1)
+    try:
+        GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
+        get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_64bit.exe",stream=True)
+        with open('temp_TOKE_64bit.exe', 'wb') as f:
+            for chunk in get_response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+            print("complete")
+    except:
+        try:
+            GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
+            get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_64bit.exe",stream=True)
+            with open('temp_TOKE_64bit.exe', 'wb') as f:
+                for chunk in get_response.iter_content(chunk_size=1024):
+                    if chunk:
+                        f.write(chunk)
+                print("complete")
+        except:
+            print("failed")
+            return
+    try:
+        if getattr(sys, 'frozen', False):
+            bundle_dir = sys._MEIPASS
+        else:
+            bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_64bit.bat'))
+            file = os.path.join(bundle_dir, 'tinit_auto_update_64bit.bat')
+            os.startfile(r"{}".format(file))
+            exit()
+    except:
+        pass
+
+def download_toke_32bit():
+    time.sleep(0.1)
+    try:
+        GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
+        get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_32bit.exe",stream=True)
+        with open('temp_TOKE_32bit.exe', 'wb') as f:
+            for chunk in get_response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+            print("complete")
+    except:
+        try:
+            GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
+            get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_32bit.exe",stream=True)
+            with open('temp_TOKE_32bit.exe', 'wb') as f:
+                for chunk in get_response.iter_content(chunk_size=1024):
+                    if chunk:
+                        f.write(chunk)
+            print("complete")
+        except:
+            print("failed")
+            return
+    try:
+        if getattr(sys, 'frozen', False):
+            bundle_dir = sys._MEIPASS
+        else:
+            bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_32bit.bat'))
+            file = os.path.join(bundle_dir, 'tinit_auto_update_32bit.bat')
+            os.startfile(r"{}".format(file))
+            exit()
+    except:
+        pass
+
+def init_auto_update():
+    print(f'''\nDownloading Updates ...\t\t''',end="")
+    iver = os.path.split(sys.argv[0])[1][5:7:]
+    if int(iver) == 32:
+        download_toke_32bit()
+    elif int(iver) == 64:
+        download_toke_64bit()
+    else:
+        download_toke_32bit()
+
 def check_online():
     print(f"\n                {Back.GREEN + Style.BRIGHT}      CHECKING NETWORK      {Back.BLACK + Style.RESET_ALL}\n")
     online = isOnline()
@@ -373,16 +450,33 @@ def make_update():
     print(f"              {Back.GREEN + Style.BRIGHT}     CHECKING FOR UPDATES      {Back.BLACK + Style.RESET_ALL}\n")
     try:
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-        MessageBox(0, f'''  The application has a new version (v.{int(VERSION[2]) + 1}.0), visit: {Fore.BLUE}https:
+        MessageBox(0, f'''  The application has a new version (v.{int(VERSION[2]) + 1}.0), visit: https:
   //github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0''', 'TOKE SYSTEM',64)
     except:
         try:
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-            MessageBox(0, f'''  The application has a new version (v.{VERSION[2]}.{int(VERSION[4]) + 1}), visit: {Fore.BLUE}https:
+            MessageBox(0, f'''  The application has a new version (v.{VERSION[2]}.{int(VERSION[4]) + 1}), visit: https:
   //github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}''', 'TOKE SYSTEM',64)
         except:
             MessageBox(0, f'''  The application is up to date.''', 'TOKE SYSTEM',64)
     main()
+
+def check_main_update():
+    irand = random.randint(1,2)
+    if irand == 2:
+        try:
+            GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
+            print(f"{Back.YELLOW} ! {Back.BLACK} WARNING",)
+            print(f'''\n  A new version v.{int(VERSION[2]) + 1}.0 is available, we recommend updating \n  to the latest version.\n''')
+        except:
+            try:
+                GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
+                print(f"{Back.YELLOW} ! {Back.BLACK} WARNING")
+                print(f'''\n  A new version v.{VERSION[2]}.{int(VERSION[4]) + 1} is available, we recommend updating \n  to the latest version.\n''')
+            except:
+                pass
+    else:
+        pass
 
 def make_encrypt():
     print('\n')
@@ -527,6 +621,12 @@ def make_ask():
     else:
         main()     
 
+def make_auto_udpate():
+    if isOnline():
+        init_auto_update()
+    else:
+        print("Sorry, you are offline.")
+
 def show_dir():
     print("\n")
     try:
@@ -538,6 +638,28 @@ def show_dir():
                 pass
     except:
         print("  Directory location not found!")    
+
+def show_command():
+    print(f"\n                    {Back.GREEN + Style.BRIGHT}      COMMAND      {Back.BLACK + Style.RESET_ALL}\n")
+    print(f'''
+   COMMAND         DESCRIPTION
+   -----------     ------------
+   encrypt         Encrypt a file with or without a passw
+                   ord.
+   decrypt         Decrypt an encrypted file with or with
+                   out a password.
+   online          Check the user's network status.
+   files           Displays files supported by the TOKE s
+                   ystem in the program directory.
+   license         Checks user license information data u
+                   sed.
+   shutdown        Turn off the TOKE system.
+   exit            Exit application (same as shutdown).
+   command         Displays all command functions (cmd).
+   help            Displays encryption and decryption inf
+                   ormation.
+   about           Displays a page about the application.
+        ''')
 
 def make_license_check():
     username, serial = open_license()
@@ -569,7 +691,8 @@ def main():
     os.system(f'title TOKE - Two Original Key Encryption {VERSION}')
     os.system('mode 60,37')
     print(f'''{Back.WHITE + Fore.BLACK} HI, {forusername.upper()}                                     {times.strftime("%H")}:{times.strftime("%M")} {Back.BLACK}                      ''')
-    print(f"{Back.MAGENTA} # {Back.BLACK} Enter a command> ",end="")
+    check_main_update()
+    print(f"{Back.MAGENTA} # {Back.BLACK} {forusername.lower()}@toke> ",end="")
     p = str(input()).lower()
     if p == 'encrypt' or p == 'e':
         make_encrypt()
@@ -582,11 +705,15 @@ def main():
     elif p == 'about' or p == 'abot':
         make_about()
     elif p == 'update' or p == 'check update':
+        make_auto_udpate()
+    elif p == 'updates' or p == 'check updates':
         make_update()
     elif p == 'online' or p == 'check online':
         check_online()
     elif p == 'license' or p == 'show license':
         make_license_check()
+    elif p == 'command' or p == 'show command' or p == 'cmd' or p == 'show cmd':
+        show_command()
     elif p == 'remove license' or p == 'logout':
         remove_license()
     elif p == 'shutdown' or p == 'exit' or p == 's':
@@ -991,36 +1118,36 @@ def remove_license():
             remove_license()
     return True
 
-# if __name__ == "__main__":
-#     os.system('mode 60,37')
-#     check_license()
-#     if init() > 6:
-#         # make_startup()
-#         try:
-#             check_license()
-#         except KeyboardInterrupt:
-#             make_shutdown()
-#         except:
-#             pass
-#     else:
-#         CRASHED = True
-#         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
-#         exit()
-
 if __name__ == "__main__":
     os.system('mode 60,37')
-    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        if init() > 6:
-            make_startup()
-            try:
-                check_license()
-            except KeyboardInterrupt:
-                make_shutdown()
-            except:
-                pass
-        else:
-            MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
-            exit()
+    check_license()
+    if init() > 6:
+        # make_startup()
+        try:
+            check_license()
+        except KeyboardInterrupt:
+            make_shutdown()
+        except:
+            pass
     else:
+        CRASHED = True
         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
         exit()
+
+# if __name__ == "__main__":
+#     os.system('mode 60,37')
+#     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+#         if init() > 6:
+#             make_startup()
+#             try:
+#                 check_license()
+#             except KeyboardInterrupt:
+#                 make_shutdown()
+#             except:
+#                 pass
+#         else:
+#             MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
+#             exit()
+#     else:
+#         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
+#         exit()
