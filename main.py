@@ -1,6 +1,7 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
 import random,time,os,sys,datetime,winsound,multiprocessing,urllib.request,ctypes,threading,win32api
+from tkinter import *
 from datetime import date
 import colorama,re
 from colorama import Fore,Back,Style
@@ -20,7 +21,7 @@ times = datetime.datetime.now()
 full_path = os.path.realpath(__file__)
 curr_path = os.getcwd().split('\\')[-1]
 CRASHED = False
-
+DEV_MODE = False
 
 def make_crashed():
     global CRASHED
@@ -292,6 +293,7 @@ def download_toke_64bit():
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
         get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_64bit.exe",stream=True)
         with open('temp_TOKE_64bit.exe', 'wb') as f:
+            os.system( "attrib +h temp_TOKE_64bit.exe" )
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
@@ -301,6 +303,7 @@ def download_toke_64bit():
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
             get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_64bit.exe",stream=True)
             with open('temp_TOKE_64bit.exe', 'wb') as f:
+                os.system( "attrib +h temp_TOKE_64bit.exe" )
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
@@ -325,6 +328,7 @@ def download_toke_32bit():
         GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
         get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_32bit.exe",stream=True)
         with open('temp_TOKE_32bit.exe', 'wb') as f:
+            os.system( "attrib +h temp_TOKE_32bit.exe" )
             for chunk in get_response.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
@@ -334,6 +338,7 @@ def download_toke_32bit():
             GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
             get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_32bit.exe",stream=True)
             with open('temp_TOKE_32bit.exe', 'wb') as f:
+                os.system( "attrib +h temp_TOKE_32bit.exe" )
                 for chunk in get_response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
@@ -515,9 +520,9 @@ def make_encrypt():
                 time.sleep(0.01)
                 if i == 100:
                     print('Encryption Success!')
-                    print(f"\n{Back.CYAN} * {Back.BLACK} OUTPUT: ")
-                    print('> {}.tl1e'.format(os.path.splitext(name_file)[0]))
-                    print('> {}.tl2e'.format(os.path.splitext(name_file)[0]))
+                    print(f"\n{Back.CYAN} * {Back.BLACK} {Fore.RED}OUTPUT: ")
+                    print('    > {}.tl1e'.format(os.path.splitext(name_file)[0]))
+                    print('    > {}.tl2e'.format(os.path.splitext(name_file)[0]))
                     print(f"\n{Back.CYAN} * {Back.BLACK} Will you send encrypted data to email? (y) / (n): ",end="")
                     ask_email = str(input())
                     if ask_email == 'y' or ask_email == 'yes':
@@ -558,8 +563,8 @@ def make_decrypt():
                                     x_file.write(curr_dec)
                                     x_file.close()
                                     print('Decryption Success!')
-                                    print(f"\n{Back.CYAN} * {Back.BLACK} OUTPUT: ")
-                                    print('> {}.{}'.format(name_file_decrypt,name_file_decrypt_format))
+                                    print(f"\n{Back.CYAN} * {Back.BLACK} {Fore.RED}OUTPUT: ")
+                                    print('    > {}.{}'.format(name_file_decrypt,name_file_decrypt_format))
                                     print(f"\n{Back.MAGENTA} ? {Back.BLACK} Do you want to delete TOKE files? (y) / (n) : ",end="")
                                     option = str(input())
                                     if option == 'y' or option == 'yes':
@@ -598,19 +603,41 @@ def make_help():
     make_ask()
 
 def make_about():
-    print("\n")
-    print(f"                   {Back.GREEN + Style.BRIGHT}      ABOUT      {Back.BLACK + Style.RESET_ALL}\n")
-    print(f'''\n{Back.MAGENTA} * {Back.BLACK} TOKE SYSTEM''')
-    print(f'''\n  {Fore.RED}TOKE {Fore.WHITE}({Fore.GREEN}Two Original Key Encryption{Fore.WHITE}) is a security method 
-  through encryption of data in the form of numbers and c
-  haracters, this system uses a mathematical algorithm th
-  at can be used to secure certain messages. This service
-  can convert ordinary messages in human language and fi
-  les into more secure data.''')
-    print(f'''\n{Back.MAGENTA} * {Back.BLACK} AUTHOR''')
-    print(f'''\n  Rahmat Agung Julians, Indonesia. Contact : {Fore.BLUE + Style.BRIGHT}https://gith
-  ub.com/rahmatagungj/toke''')
-    make_ask()
+    root =Tk()
+    toke_title = Label(root, text = "Two Original Key Encryption").place(x=80, y=5)
+
+    canvas = Canvas(root, width = 300, height = 300)     
+    canvas.pack()
+    if getattr(sys, 'frozen', False):
+        bundle_dir = sys._MEIPASS
+    else:
+        bundle_dir = os.path.dirname(os.path.abspath('banner.png'))
+    file_banner = os.path.join(bundle_dir, 'banner.png')      
+    img = PhotoImage(file=file_banner)   
+    canvas.create_image(50,1, anchor=NW, image=img)
+
+    about = Label(root, text = '''TOKE (Two Original Key Encryption) is a security meth
+od through encryption of data in the form of numbers 
+and characters, this system uses a mathematical algo
+rithm that can be used to secure certain messages. 
+This service can convert ordinary messages in human 
+language and files into more secure data.
+
+Website : https://rahmatagungj.github.io/toke
+Author  : Rahmat Agung Julians
+    ''', font=("Courier", 10,"bold"),justify=LEFT).place(x=10, y=80)
+
+    root.title("About")
+    if getattr(sys, 'frozen', False):
+        bundle_dir = sys._MEIPASS
+    else:
+        bundle_dir = os.path.dirname(os.path.abspath('icon_small.ico'))
+    file_logo = os.path.join(bundle_dir, 'icon_small.ico')
+    root.iconbitmap(file_logo)
+    root.geometry("450x250")
+    root.resizable(False, False) 
+    root.mainloop()
+    main()
 
 def make_ask():
     print("\n")
@@ -1120,34 +1147,21 @@ def remove_license():
 
 if __name__ == "__main__":
     os.system('mode 60,37')
-    check_license()
-    if init() > 6:
-        # make_startup()
-        try:
-            check_license()
-        except KeyboardInterrupt:
-            make_shutdown()
-        except:
-            pass
+    if DEV_MODE:
+        forusername = 'RAHMATAGUNGJ'
+        main()
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        if init() > 6:
+            make_startup()
+            try:
+                check_license()
+            except KeyboardInterrupt:
+                make_shutdown()
+            except:
+                pass
+        else:
+            MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
+            exit()
     else:
-        CRASHED = True
         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
         exit()
-
-# if __name__ == "__main__":
-#     os.system('mode 60,37')
-#     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-#         if init() > 6:
-#             make_startup()
-#             try:
-#                 check_license()
-#             except KeyboardInterrupt:
-#                 make_shutdown()
-#             except:
-#                 pass
-#         else:
-#             MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
-#             exit()
-#     else:
-#         MessageBox(0, 'An error occurred while running the TOKE system, Contact: https://github.com/rahmatagungj/toke', 'TOKE SYSTEM',16)
-#         exit()

@@ -72,6 +72,22 @@
   {
    "optionDest": "datas",
    "value": "C:/Users/RAHMATAJ/Desktop/DEV/tshutdown.mp3;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/icon_small.ico;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/banner.png;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/tinit_auto_update_32bit.bat;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/tinit_auto_update_64bit.bat;."
   }
  ],
  "nonPyinstallerOptions": {
