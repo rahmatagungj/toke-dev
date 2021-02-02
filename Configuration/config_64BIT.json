@@ -72,6 +72,14 @@
   {
    "optionDest": "datas",
    "value": "F:/ALGORITHM/toke-dev/tstartup.mp3;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "F:/ALGORITHM/toke-dev/icon_small.ico;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "F:/ALGORITHM/toke-dev/banner.png;."
   }
  ],
  "nonPyinstallerOptions": {
