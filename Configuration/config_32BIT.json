@@ -75,11 +75,19 @@
   },
   {
    "optionDest": "datas",
-   "value": "F:/ALGORITHM/toke-dev/icon_small.ico;."
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/icon_small.ico;."
   },
   {
    "optionDest": "datas",
-   "value": "F:/ALGORITHM/toke-dev/banner.png;."
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/banner.png;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/tinit_auto_update_32bit.bat;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/RAHMATAJ/Desktop/DEV/tinit_auto_update_64bit.bat;."
   }
  ],
  "nonPyinstallerOptions": {

@@ -80,6 +80,14 @@
   {
    "optionDest": "datas",
    "value": "F:/ALGORITHM/toke-dev/banner.png;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "F:/ALGORITHM/toke-dev/tinit_auto_update_64bit.bat;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "F:/ALGORITHM/toke-dev/tinit_auto_update_32bit.bat;."
   }
  ],
  "nonPyinstallerOptions": {
