@@ -1,5 +1,5 @@
 import unittest,time
-from main import *
+from backend import *
 
 os.system('mode 85,107')
 print(f'''

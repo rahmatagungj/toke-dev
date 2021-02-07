@@ -1,18 +1,19 @@
 import eel,os,random,platform,sys,threading,time
 import tkinter 
 from tkinter import filedialog
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilename,asksaveasfilename
 import backend as backend
 
-eel.init('web',allowed_extensions=['.js', '.html','.css'])
-
 #GLOBAL VARIABLE
-DEVMODE = False
+DEVMODE = True
 canDecrypt = False	
 canEncrypt = False
 
+eel.init('web',allowed_extensions=['.js', '.html','.css'])
+
 @eel.expose
 def pick_file(mode):
+	eel.js_disable_execute()
 	root = tkinter.Tk()
 	root.attributes("-topmost", True)
 	root.withdraw()
@@ -21,11 +22,11 @@ def pick_file(mode):
 		if len(filepath) > 0:
 			eel.js_set_path(filepath)
 	elif mode == 'decrypt_tl1e':
-		filepath = askopenfilename(filetypes=(("toke 1 files","*.tl1e"),("All files","*.*")))
+		filepath = askopenfilename(filetypes=(("toke 1 files","*.tl1e"),))
 		if len(filepath) > 0:
 			eel.js_set_path_tl1e(filepath)
 	elif mode == 'decrypt_tl2e':
-		filepath = askopenfilename(filetypes=(("toke 2 files","*.tl2e"),("All files","*.*")))
+		filepath = askopenfilename(filetypes=(("toke 2 files","*.tl2e"),))
 		if len(filepath) > 0:
 			eel.js_set_path_tl2e(filepath)
 	elif mode == 'output':
@@ -36,6 +37,35 @@ def pick_file(mode):
 		filepath = current_directory = filedialog.askdirectory()
 		if len(filepath) > 0:
 			eel.js_set_path_output_decrypt(filepath)
+	elif mode == 'note':
+		filepath = askopenfilename(filetypes=(("text files","*.txt"),("All files","*.*")))
+		if len(filepath) > 0:
+			try:
+				note = open(filepath)
+				text = note.read()
+				eel.js_set_note(text)
+				note.close()
+			except Exception as e:
+				print(e)
+				eel.js_modal_error('TOKE SYSTEM','File Not Supported!')
+	eel.js_enable_execute()
+
+@eel.expose
+def save_note(text):
+	eel.js_disable_execute()
+	root = tkinter.Tk()
+	root.attributes("-topmost", True)
+	root.withdraw()
+	try:
+		withSave = asksaveasfilename(defaultextension='.txt',filetypes=(("text files","*.txt"),("All files","*.*")))
+		note = open(withSave, 'w')
+		note.write(text)
+		note.close()
+		eel.js_modal_success('TOKE SYSTEM','Saved successfully')
+	except:
+		eel.js_enable_execute()
+	finally:
+		eel.js_enable_execute()
 
 @eel.expose
 def encrypt_now(filename,fileE,keyE,emailE,sendEmail,fileEOutput):
@@ -153,16 +183,22 @@ def startup_check_update():
 
 @eel.expose
 def tools_check_update():
+	eel.js_disable_execute()
 	update = backend.check_main_update()
 	if update != None:
 		eel.js_show_startup_update(update)
+	else:
+		eel.js_restore_update()
+	eel.js_enable_execute()
 
 @eel.expose
 def check_connection():
+	eel.js_disable_execute()
 	if backend.isOnline():
 		eel.js_set_check_connection('online')
 	else:
 		eel.js_set_check_connection('offline')
+	eel.js_enable_execute()
 
 @eel.expose
 def check_status_license():
@@ -175,9 +211,7 @@ def main(state):
 		inHost = 'localhost'
 		inMode = None
 		inPort = 2307
-		first = False
 	else:
-		first = True
 		if DEVMODE:
 			inHost = 'localhost'
 			inMode = None
@@ -185,22 +219,29 @@ def main(state):
 		else:
 			inHost = 'localhost'
 			inMode = 'chrome'
-			inPort = 2307
-	if backend.isOnline() and first:
-		makeUpdate = threading.Thread(target=startup_check_update)
-		makeUpdate.start()
-	try:
-		eel.start('index.html',host=inHost,mode=inMode,size=(550, 700),port=inPort,disable_cookie=True)
-	except EnvironmentError:
-		if first:
-			#launch edge if first run app and chrome not found
+			inPort = 0
+		if backend.isOnline():
+			makeUpdate = threading.Thread(target=startup_check_update)
+			makeUpdate.start()
+	if DEVMODE:
+		try:
+			eel.start('index.html',host=inHost,mode=inMode,size=(550, 700),port=inPort,disable_cookie=True)
+		except EnvironmentError:
 			if sys.platform in ['win32', 'win64'] and int(platform.release()) >= 10:
 				eel.start('index.html',host=inHost,mode='edge',size=(550, 700),port=0,disable_cookie=True)
 			else:
 				raise
-	finally:
-		main('relaunch') #relaunch if server error
-		exit()
+		finally:
+			print('Relaunching server development')
+			main('relaunch')
+	else:
+		try:
+			eel.start('index.html',host=inHost,mode=inMode,size=(550, 700),port=inPort,disable_cookie=True)
+		except EnvironmentError:
+			if sys.platform in ['win32', 'win64'] and int(platform.release()) >= 10:
+				eel.start('index.html',host=inHost,mode='edge',size=(550, 700),port=0,disable_cookie=True)
+			else:
+				raise
 
 if __name__ == '__main__':
 	main('normal')

@@ -1,11 +1,12 @@
 .toPath {
-    color: #212529;
-	background-color: #fff;
-	border: 1px solid #ced4da;
+    color: #bbbbbb;
 	border-radius: .25rem;
-    padding: 5px;
+    padding: 8px;
     margin-left: 10px;
-    margin-right: -10px;ss.exe
+    margin-right: -10px;
+    background-color: rgba(255, 255, 255, .15);  
+ 	backdrop-filter: blur(5px);
+
 }
 
 .tokelogo {
@@ -18,12 +19,9 @@
 	color: white;
 }
 
-.limitpad {
-	max-width: 95%;
-}
-
 .myhead {
-	background-image: url(/image/headbg.png);
+	/*background-image: url(/image/headbg.png);*/
+	background-color: #252422;
 	/*display: flex;*/
 }
 
@@ -89,47 +87,6 @@ a.active  {
 nav-link.active {
 	color: black !important;
 }
-.color0 {
-	background-color: #FFFFFF !important;
-	color: black !important;
-}
-
-.color0:hover {
-	color: black !important;
-}
-
-.color1 {
-	background-color: #18264F !important;
-}
-
-.color2 {
-	background-color: #4D75FF !important;
-}
-
-.color3 {
-	background-color: #00E194 !important;
-}
-
-.color4 {
-	background-color: #FF4891 !important;
-}
-
-.border-color1 {
-	border: 2px solid #18264F !important;
-}
-
-.border-color2 {
-	border: 2px solid #4D75FF !important;
-}
-
-.border-color3 {
-    border: 2px solid #00E194 !important;
-}
-
-.border-color4 {
-	border: 2px solid #FF4891 !important;
-}
-
 a {
 	color:white;
 }
@@ -139,10 +96,10 @@ a:hover {
 }
 
 body {
-	/*background-color: ghostwhite;*/
-	background: linear-gradient(-45deg, rgba(238,174,202,0.5270483193277311), rgba(148,187,233,0.022846638655462215), rgba(238,174,202,0.5270483193277311), rgba(148,187,233,0.022846638655462215));
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+	/*background-color: #252422 !important;*/
+    background-image: url(/image/bg.png);
+    background-size: cover;
+	color:white !important;
 	-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -163,4 +120,52 @@ html {
 
 ::-webkit-scrollbar-thumb {
 	background: transparent;
+}
+
+
+
+
+/*CUSTOM BOOTSTRAP*/
+.btn-info {
+    color: white !important;
+    border: 2px solid #087e8b !important;
+    background-color: rgb(75 143 151 / 36%) !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+.btn-info:hover {
+	-webkit-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+	-moz-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+	box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+}
+
+.btn-primary:hover {
+	-webkit-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+	-moz-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+	box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+}
+
+.orange {
+    background-color: #eb5e28 !important;
+}
+
+.blue {
+    background-color: #087e8b !important;
+}
+
+.nav-tabs {
+     border-bottom: 0px solid #dee2e6 !important; 
+}
+
+.dark {
+	background-color: rgba(255, 255, 255, .15) !important;  
+ 	backdrop-filter: blur(5px) !important;
+ 	border: 0px !important;
+ 	color: #bbbbbb !important;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: white !important;
+    background-color: #21282d !important;
+     border-color: transparent !important; 
 }

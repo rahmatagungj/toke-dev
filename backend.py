@@ -10,7 +10,7 @@ from email.mime.application import MIMEApplication
 from os.path import basename
 
 # GLOBAL VARIABLE
-VERSION = 'v.1.0'
+VERSION = 'v.1.6'
 MessageBox = ctypes.windll.user32.MessageBoxW
 
 def version():
