@@ -1,9 +1,3 @@
-window.onload = function() {
-          //if button "ok" is clicked it returns true in the value variable and then closes the window if true
-          console.log("halo");
-          // window.close();
-      };
-
 async function get_file(){
 	let path = await eel.pick_file('encrypt');
 }
@@ -22,6 +16,10 @@ async function get_file_output(){
 
 async function get_file_output_decrypt(){
 	let path = await eel.pick_file('output_decrypt');
+}
+
+async function get_file_note(){
+	let path = await eel.pick_file('note');
 }
 
 eel.expose(js_set_path);
@@ -98,34 +96,78 @@ function js_set_result(message){
 
 eel.expose(js_disable_execute)
 function js_disable_execute() {
-  var element = document.getElementById("buttonExecute");
-  element.classList.add("disabled");
+  // var element = document.getElementById("buttonExecute");
+  $('button').prop('disabled', true);
 }
 
 eel.expose(js_enable_execute)
 function js_enable_execute() {
-  var element = document.getElementById("buttonExecute");
-  element.classList.remove("disabled");
+  // var element = document.getElementById("buttonExecute");
+  $('button').prop('disabled', false);
 }
 
 eel.expose(js_modal_error)
 function js_modal_error(title,message){
-	tata.error(title, message, {position: 'mm',animate: 'slide'});
+	const options = {
+	  settings: {
+        duration: 3000,
+      },
+      style: {
+        main: {
+          background: "#e8505b",
+          color: "#fff",
+	      },
+	  },
+	};
+	iqwerty.toast.toast(message, options);
 }
 
 eel.expose(js_modal_success)
 function js_modal_success(title,message){
-	tata.success(title, message, {position: 'mm',animate: 'slide'});
+	const options = {
+	  settings: {
+        duration: 3000,
+      },
+      style: {
+        main: {
+          background: "#14b1ab",
+          color: "#fff",
+	      },
+	  },
+	};
+	iqwerty.toast.toast(message, options);
 }
 
 eel.expose(js_modal_info)
 function js_modal_info(title,message){
-	tata.info(title, message, {position: 'mm',animate: 'slide'});
+	const options = {
+	  settings: {
+        duration: 3000,
+      },
+      style: {
+        main: {
+          background: "#62959c",
+          color: "#fff",
+	      },
+	  },
+	};
+	iqwerty.toast.toast(message, options);
 }
 
 eel.expose(js_modal_warning)
 function js_modal_warning(title,message){
-	tata.log(title, message, {position: 'mm',animate: 'slide'});
+	const options = {
+	  settings: {
+        duration: 3000,
+      },
+      style: {
+        main: {
+          background: "#f9d56e",
+          color: "#fff",
+	      },
+	  },
+	};
+	iqwerty.toast.toast(message, options);
 }
 
 function js_disable_right_click(){
@@ -159,7 +201,7 @@ function js_disable_reload(){
 }
 
 // Security
-js_disable_reload()
+// js_disable_reload()
 // js_disable_right_click()
 
 // $(document).on("contextmenu", function (e) {        
@@ -180,6 +222,19 @@ js_disable_reload()
 
 // End Security
 
+eel.expose(js_save_note)
+function js_save_note(){
+	let text = document.getElementById('textNote').value;
+	eel.save_note(text)
+}
+
+eel.expose(js_set_note);
+function js_set_note(text){
+	let file_div = document.getElementById('textNote');
+	file_div.innerHTML = text;
+	file_div.value = text;
+}
+
 function js_check_connection(){
 	document.getElementById('check-connection').innerHTML = 'Checking Connection';
 	eel.check_connection();
@@ -188,7 +243,7 @@ function js_check_connection(){
 eel.expose(js_set_check_connection)
 function js_set_check_connection(status){
 	document.getElementById('check-connection').innerHTML = 'Check Connection';
-	tata.info('INFORMATION','You are '+ status, {position: 'mm',animate: 'slide'});
+	js_modal_info('INFORMATION','You are '+ status)
 }
 
 function js_check_update(){
@@ -198,12 +253,24 @@ function js_check_update(){
 
 eel.expose(js_set_check_update)
 function js_set_check_update(status){
-	tata.info('INFORMATION','You are '+ status, {position: 'mm',animate: 'slide'});
+	js_modal_info('INFORMATION','You are '+ status)
+}
+
+eel.expose(js_restore_update)
+function js_restore_update(){
+	document.getElementById('check-update').innerHTML = 'Check Update';
+	js_modal_info('INFORMATION',"The application is up to date.")
 }
 
 eel.expose(js_show_startup_update)
 function js_show_startup_update(version){
 	document.getElementById('check-update').innerHTML = 'Check Update';
-	tata.info('INFORMATION',"A new version "+ version +" is available, we recommend updating \n  to the latest version.", {position: 'mm',animate: 'slide',duration: 5000,holding: true,progress: false});
+	js_modal_info('INFORMATION',"A new version "+ version +" is available, we recommend updating \n  to the latest version.")
 }
 
+// GOOGLE ANALITYC
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-W4140HYN2D');

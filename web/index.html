@@ -5,28 +5,32 @@
 		<link rel="icon" type="image/png" href="/image/logo.ico"/>
 		<link type="text/css" rel="stylesheet" href="/css/main.css"/>
 		<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="/css/all.min.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 	<body>
 		<div class="sticky-top">
-			<div class="myhead col-12">
+			<div class="myhead col-12 orange">
 				<center>
 				<img src="/image/LP.png" class="tokelogo"> 
 				</center>
 			</div>
 			<!-- Nav tabs -->
-			<ul class="nav nav-tabs bg-warning" id="myTab" role="tablist">
+			<ul class="nav nav-tabs orange" id="myTab" role="tablist">
 				<li class="nav-item" role="presentation">
-					<a class="nav-link active" id="menu-one-tab" data-bs-toggle="tab" href="#menu-one" role="tab" aria-controls="menu-one" aria-selected="true">Home</a>
+					<a class="nav-link active" id="menu-one-tab" data-bs-toggle="tab" href="#menu-one" role="tab" aria-controls="menu-one" aria-selected="true"><i class="fas fa-home"></i> Home </a>
 				</li>
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-two-tab" data-bs-toggle="tab" href="#menu-two" role="tab" aria-controls="menu-two" aria-selected="false">Encrypt</a>
+					<a class="nav-link" id="menu-two-tab" data-bs-toggle="tab" href="#menu-two" role="tab" aria-controls="menu-two" aria-selected="false"><i class="fas fa-lock"></i> Encrypt</a>
 				</li>
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-there-tab" data-bs-toggle="tab" href="#menu-there" role="tab" aria-controls="menu-there" aria-selected="false">Decrypt</a>
+					<a class="nav-link" id="menu-there-tab" data-bs-toggle="tab" href="#menu-there" role="tab" aria-controls="menu-there" aria-selected="false"><i class="fas fa-lock-open"></i> Decrypt</a>
 				</li>
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-four-tab" data-bs-toggle="tab" href="#menu-four" role="tab" aria-controls="menu-four" aria-selected="false">Tools</a>
+					<a class="nav-link" id="menu-four-tab" data-bs-toggle="tab" href="#menu-four" role="tab" aria-controls="menu-four" aria-selected="false"><i class="fas fa-sticky-note"></i> Text Editor</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" id="menu-five-tab" data-bs-toggle="tab" href="#menu-five" role="tab" aria-controls="menu-five" aria-selected="false"><i class="fas fa-tools"></i> More Tools</a>
 				</li>
 			</ul>
 		</div>
@@ -40,7 +44,46 @@
 							<h1 class="display-4">Hello!</h1>
 							<p class="lead">Thank you for using the toke system, enjoy.</p>
 							<hr class="my-4">
-							<a class="btn btn-info" href="https://github.com/rahmatagungj/toke/discussions/new" role="button" target="_blank">Report bug</a>
+							<a class="btn btn-info" href="https://github.com/rahmatagungj/toke/discussions/new" role="button" target="_blank"><i class="fas fa-bug"></i> Report bug</a>
+						</div>
+						<br/>
+						<h4> Tips and Tricks</h4>
+						<div class="row" style="color: black;border: 0px !important; background-color: transparent;">
+						  <div class="col-sm-6">
+						    <div class="card" style="color: white;border: 0px !important; background-color: rgba(255, 255, 255, .15); backdrop-filter: blur(5px);">
+						      <div class="card-body">
+						        <h5 class="card-title"><i class="fas fa-sticky-note"></i> Text Editor</h5>
+						        <p class="card-text">Use the built-in text editor to speed up the editing process.</p>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="col-sm-6">
+						    <div class="card" style="color: white;border: 0px !important; background-color: rgba(255, 255, 255, .15); backdrop-filter: blur(5px);">
+						      <div class="card-body">
+						        <h5 class="card-title"><i class="fas fa-tools"></i> Tools</h5>
+						        <p class="card-text">Visit the tools tab to get the full action on the app.</p>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						<br/>
+						<div class="row" style="color: black;border: 0px !important; background-color: transparent;">
+						  <div class="col-sm-6">
+						    <div class="card" style="color: white;border: 0px !important; background-color: rgba(255, 255, 255, .15); backdrop-filter: blur(5px);">
+						      <div class="card-body">
+						        <h5 class="card-title"><i class="fas fa-envelope"></i> Email sender</h5>
+						        <p class="card-text">Privacy and data can be stored online via email easily.</p>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="col-sm-6">
+						    <div class="card" style="color: white;border: 0px !important; background-color: rgba(255, 255, 255, .15); backdrop-filter: blur(5px);">
+						      <div class="card-body">
+						        <h5 class="card-title"><i class="fab fa-windows"></i> Compatibility</h5>
+						        <p class="card-text">OS compatible version to get the best experience.</p>
+						      </div>
+						    </div>
+						  </div>
 						</div>
 					</div>
 				</div>
@@ -68,13 +111,13 @@
 						<div class="col-4">
 							<h5> Security Key </h5>
 							<div class="col-12" id="securitykey">
-								<input type="text" class="form-control limitpad" placeholder="4 digits" aria-label="4 digits" aria-describedby="basic-addon1" id="keyE">
+								<input type="text" class="form-control dark" placeholder="4 digits" aria-label="4 digits" aria-describedby="basic-addon1" id="keyE">
 							</div>
 						</div>
 						<div class="col-8">
 							<h5> Output Filename </h5>
 							<div class="col-12" id="securitykey">
-								<input type="text" class="form-control" placeholder="example" aria-label="example" aria-describedby="basic-addon1" id="filenameE">
+								<input type="text" class="form-control dark" placeholder="example" aria-label="example" aria-describedby="basic-addon1" id="filenameE">
 							</div>
 						</div>
 					</div><br/>
@@ -84,7 +127,7 @@
 							<input class="form-check-input" type="checkbox" value="" id="sendEmail" value="no">
 							<label class="form-check-label" for="flexCheckDefault">Send results to email</label>
 							<div class="col-12" id="toEmail">
-								<input type="text" class="form-control" placeholder="example@gmail.com" aria-label="example@gmail.com" aria-describedby="basic-addon1" id="emailE" value="">
+								<input type="text" class="form-control dark" placeholder="example@gmail.com" aria-label="example@gmail.com" aria-describedby="basic-addon1" id="emailE" value="">
 							</div>
 						</div>
 					</div>
@@ -92,14 +135,14 @@
 					<div class="row result">
 						<h5>RESULT</h5>
 						<div class="col-12 limitpad">
-							<textarea class="form-control" id="layer1" rows="3" readonly style="resize: none;">
+							<textarea class="form-control dark" id="layer1" rows="3" readonly style="resize: none;">
 							</textarea>
 						</div>
 					</div>
 					<br/>
 					<div class="row sticky-bottom">
 						<div class="d-grid gap-2">
-							<button class="btn btn-danger" type="button" onclick="js_encrypt_now()" id="buttonExecute"> ENCRYPT NOW</button>
+							<button class="btn btn-primary blue" type="button" onclick="js_encrypt_now()" id="buttonExecute"> ENCRYPT NOW</button>
 						</div>
 					</div>
 				</div>
@@ -131,36 +174,54 @@
 						<div class="col-4">
 							<h5> Security Key </h5>
 							<div class="col-12">
-								<input type="text" class="form-control limitpad" placeholder="4 digits" aria-label="4 digits" aria-describedby="basic-addon1" id="keyD">
+								<input type="text" class="form-control dark" placeholder="4 digits" aria-label="4 digits" aria-describedby="basic-addon1" id="keyD">
 							</div>
 						</div>
 						<div class="col-5">
 							<h5> Output Filename</h5>
 							<div class="col-12">
-								<input type="text" class="form-control" placeholder="example" aria-label="example" aria-describedby="basic-addon1" id="filenameD">
+								<input type="text" class="form-control dark" placeholder="example" aria-label="example" aria-describedby="basic-addon1" id="filenameD">
 							</div>
 						</div>
 						<div class="col-3">
 							<h5>Extension</h5>
 							<div class="col-12">
-								<input type="text" class="form-control" placeholder="txt" aria-label="txt" aria-describedby="basic-addon1" id="extensionD">
+								<input type="text" class="form-control dark" placeholder="txt" aria-label="txt" aria-describedby="basic-addon1" id="extensionD">
 							</div>
 						</div>
 						<div class="miniPadding"></div><div class="miniPadding"></div>
 						<h5>RESULT</h5>
 						<div class="col-12 limitpad">
-							<textarea class="form-control" id="layer2" rows="3" readonly style="resize: none;">
+							<textarea class="form-control dark" id="layer2" rows="3" readonly style="resize: none;">
 							</textarea>
 						</div>
 						<div class="miniPadding"></div><div class="miniPadding"></div>
 						<div class="d-grid gap-2 sticky-bottom">
-							<button class="btn btn-danger" type="button" onclick="js_decrypt_now()" id="buttonExecute">DECRYPT NOW</button>
+							<button class="btn btn-primary blue" type="button" onclick="js_decrypt_now()" id="buttonExecute">DECRYPT NOW</button>
 						</div>
 					</div>
 					<br/>
 				</div>
 			</div>
 			<div class="tab-pane" id="menu-four" role="tabpanel" aria-labelledby="menu-four-tab">
+				<div class="container">
+					<br/>
+					<h5> Text Editor </h5>
+					<div class="col-12">
+						<textarea class="form-control dark" id="textNote" rows="17" style="resize: none;">
+						</textarea>
+					</div><br/>
+					<div class="row sticky-bottom">
+						<div class="col-6 d-grid">
+							<button class="btn btn-primary blue" type="button" onclick="get_file_note()" id="buttonExecute"> OPEN </button>
+						</div>
+						<div class="col-6 d-grid">
+							<button class="btn btn-primary blue" type="button" onclick="js_save_note()" id="buttonExecute"> SAVE </button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="menu-five" role="tabpanel" aria-labelledby="menu-five-tab">
 				<div class="container">
 					<br/>
 					<h5> Tools </h5>
@@ -172,19 +233,20 @@
 							<button type="button" class="btn btn-info" id="check-update" onclick="js_check_update()">Check Update</button>
 						</div>
 						<div class="col">
-							awoawawaw
+							<button type="button" class="btn btn-info" disabled>Coming soon</button>
 						</div>
 						<div class="col">
-							awoawawaw
+							<button type="button" class="btn btn-info" disabled>Coming soon</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-W4140HYN2D"></script>
 	<script type="text/javascript" src="eel.js"></script>
-	<script type="text/javascript" src="/js/tata.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.min.js"></script>
-	<script src="/js/api.js"></script>
+	<script type="text/javascript" src="/js/toast.min.js"></script>
+	<script type="text/javascript" src="/js/api.js"></script>
 </html>
