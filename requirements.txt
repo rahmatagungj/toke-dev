@@ -1,3 +1,6 @@
 pyinstaller
-auto-py-to-exe
-eel
+bottle
+bottle-websocket
+future
+whichcraft
+pyparsing

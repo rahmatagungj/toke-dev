@@ -8,3 +8,5 @@ DEL "TOKE_64bit.exe"
 attrib -h "temp_TOKE_64bit.exe"
 ren "temp_TOKE_64bit.exe" "TOKE_64bit.exe"
 cls
+echo Update Completed ..
+pause

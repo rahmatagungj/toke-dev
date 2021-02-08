@@ -1,6 +1,6 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
-import random,time,os,sys,datetime,urllib.request,ctypes,re
+import random,time,os,sys,datetime,urllib.request,ctypes,re,requests
 from tkinter import *
 from datetime import date
 import smtplib,ssl
@@ -12,9 +12,6 @@ from os.path import basename
 # GLOBAL VARIABLE
 VERSION = 'v.1.6'
 MessageBox = ctypes.windll.user32.MessageBoxW
-
-def version():
-	return VERSION
 
 def rand_sleep(start,end):
 	randomis = random.uniform(start,end)
@@ -220,7 +217,6 @@ def download_toke_64bit():
 			for chunk in get_response.iter_content(chunk_size=1024):
 				if chunk:
 					f.write(chunk)
-			print("complete")
 	except:
 		try:
 			GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
@@ -230,18 +226,17 @@ def download_toke_64bit():
 				for chunk in get_response.iter_content(chunk_size=1024):
 					if chunk:
 						f.write(chunk)
-				print("complete")
 		except:
-			print("failed")
-			return
+			return 'failed'
 	try:
 		if getattr(sys, 'frozen', False):
 			bundle_dir = sys._MEIPASS
 		else:
 			bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_64bit.bat'))
-			file = os.path.join(bundle_dir, 'tinit_auto_update_64bit.bat')
-			os.startfile(r"{}".format(file))
-			exit()
+		file = os.path.join(bundle_dir, 'tinit_auto_update_64bit.bat')
+		os.startfile(r"{}".format(file))
+		exit()
+		return 'complete'
 	except:
 		pass
 
@@ -255,7 +250,6 @@ def download_toke_32bit():
 			for chunk in get_response.iter_content(chunk_size=1024):
 				if chunk:
 					f.write(chunk)
-			print("complete")
 	except:
 		try:
 			GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
@@ -265,29 +259,29 @@ def download_toke_32bit():
 				for chunk in get_response.iter_content(chunk_size=1024):
 					if chunk:
 						f.write(chunk)
-			print("complete")
 		except:
-			print("failed")
-			return
+			return 'failed'
 	try:
 		if getattr(sys, 'frozen', False):
 			bundle_dir = sys._MEIPASS
 		else:
 			bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_32bit.bat'))
-			file = os.path.join(bundle_dir, 'tinit_auto_update_32bit.bat')
-			os.startfile(r"{}".format(file))
-			exit()
+		file = os.path.join(bundle_dir, 'tinit_auto_update_32bit.bat')
+		os.startfile(r"{}".format(file))
+		exit()
+		return 'complete'
 	except:
 		pass
 
 def init_auto_update():
-	iver = os.path.split(sys.argv[0])[1][5:7:]
+	# iver = os.path.split(sys.argv[0])[1][5:7:]
+	iver = 64
 	if int(iver) == 32:
-		download_toke_32bit()
-	elif int(iver) == 64:
-		download_toke_64bit()
+		update = download_toke_32bit()
+		return update
 	else:
-		download_toke_32bit()
+		update = download_toke_32bit()
+		return update
 
 def isEmail(email):  
 	regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
@@ -342,19 +336,7 @@ def email(emailed,file,filename,key):
 				return 'failed'
 	except:
 		return 'Something went wrong'
-
-def make_update():
-	try:
-		GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-		MessageBox(0, f'''  The application has a new version (v.{int(VERSION[2]) + 1}.0), visit: https:
-  //github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0''', 'TOKE SYSTEM',64)
-	except:
-		try:
-			GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-			MessageBox(0, f'''  The application has a new version (v.{VERSION[2]}.{int(VERSION[4]) + 1}), visit: https:
-  //github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}''', 'TOKE SYSTEM',64)
-		except:
-			MessageBox(0, f'''  The application is up to date.''', 'TOKE SYSTEM',64)
+		
 
 def check_main_update():
 	for check in range(5):
@@ -369,11 +351,12 @@ def check_main_update():
 				except:
 					pass
 
-def make_auto_udpate():
+def make_auto_update():
 	if isOnline():
-		init_auto_update()
+		update = init_auto_update()
+		return update 
 	else:
-		print("Sorry, you are offline.")
+		return 'offline'
 
 def make_license_check():
 	username, serial = open_license()
@@ -401,30 +384,13 @@ def remove_license():
 	if os.path.isfile('license.tlic'):
 		try:
 			os.remove("license.tlic")
-			os.system('cls')
-			print(f'''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-						 LOGGING OUT''')
-			for i in range(0,101):
-				loading_bar_center(i,100,2)
-				time.sleep(0.01)
-				if i == 100:
-					check_license()
 		except:
 			remove_license()
 	return True
+
+def killme():
+	os.system("taskkill /F /IM toke_64bit.exe /T")
+	os.system("taskkill /F /IM toke_32bit.exe /T")
+	os.system('taskkill /F /IM python.exe /T')
+	sys.exit()
+	exit()
