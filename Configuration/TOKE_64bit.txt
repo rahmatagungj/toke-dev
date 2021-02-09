@@ -1,0 +1,1 @@
+python -m eel main.py GUI --onefile --noconsole --icon "F:/ALGORITHM/toke-dev/Documentation/LOGO.ico" --name "TOKE_64bit" --ascii --clean --version-file "F:/ALGORITHM/toke-dev/Configuration/file_version_info_64bit.txt" --add-data "F:/ALGORITHM/toke-dev/backend.py;."
