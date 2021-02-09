@@ -7,7 +7,8 @@ export default function menuFour(){
 			button_connection: 'Check Connection',
 			button_update: 'Check Update',
 			button_version: 'Check Version',
-			button_coming_soon: 'Coming soon'
+			button_system: 'Check System',
+			button_style: 'btn btn-info'
 		},
 		methods: {
 			connection: function(){
@@ -18,6 +19,9 @@ export default function menuFour(){
 			},
 			version: function(){
 				js_check_version()
+			},
+			system: function(){
+				js_check_system()
 			}
 		}
 	 })

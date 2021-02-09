@@ -15,7 +15,13 @@ export default function menuThere(){
 			text_output_filename: 'Output Filename',
 			text_extension: 'Extension',
 			text_result: 'RESULT',
-			text_button_execute: 'DECRYPT NOW'
+			text_button_execute: 'DECRYPT NOW',
+			button_file: {
+				width: "100%"
+			},
+			no_resize: {
+				resize: "none"
+			}
 		},
 		methods: {
 			getTL1E: function(){

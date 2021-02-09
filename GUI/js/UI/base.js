@@ -6,7 +6,7 @@ import menuThere from './menuThere.js';
 import menuFour from './menuFour.js';
 import menuFive from './menuFive.js';
 
-let renderUI = () => {
+var renderUI = () => {
 	header();
 	navbar();
 	menuOne();

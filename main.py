@@ -1,12 +1,13 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
-import EEL as eel
+
+import eel
 import os,platform,sys,threading,time,socket
 import tkinter 
 from tkinter.filedialog import askopenfilename,asksaveasfilename,askdirectory
 import backend as backend
 
 #GLOBAL VARIABLE
-DEVMODE = True
+DEVMODE = False
 canDecrypt = False	
 canEncrypt = False
 
@@ -20,6 +21,7 @@ def get_port():
     sock.close()
     return port
 
+
 def startup_check_update():
 	""" get new version if available """
 	time.sleep(5)
@@ -27,12 +29,39 @@ def startup_check_update():
 	if update != None:
 		eel.js_show_startup_update(update)
 
+
 @eel.expose
 def check_version():
+	""" Check version from tools """
 	eel.js_modal_info('TOKE SYSTEM',"Currently at {}".format(backend.VERSION.upper()))
+
+
+@eel.expose
+def check_system():
+	""" Check system from tools """
+	eel.js_in_execute(True)
+	point = 0
+	if callable(get_port):
+		point += 5
+	if callable(pick_file):
+		point += 5
+	if callable(encrypt_now):
+		point += 5
+	if callable(decrypt_now):
+		point += 5
+	if callable(main):
+		point += 5
+
+	if point >= 20:
+		eel.js_modal_info('TOKE SYSTEM','System checked successfully, no failures.')
+	else:
+		eel.js_modal_error('TOKE SYSTEM','System checked successfully, with failure.')
+	eel.js_in_execute(False)
+
 
 @eel.expose
 def pick_file(mode):
+	""" To Pick file and folder from UI """
 	eel.js_in_execute(True)
 	root = tkinter.Tk()
 	root.attributes("-topmost", True)
@@ -65,13 +94,14 @@ def pick_file(mode):
 				text = note.read()
 				eel.js_set_note(text)
 				note.close()
-			except Exception as e:
-				print(e)
+			except:
 				eel.js_modal_error('TOKE SYSTEM','File Not Supported!')
 	eel.js_in_execute(False)
 
+
 @eel.expose
 def save_note(text):
+	""" To Save text from text editor """
 	eel.js_in_execute(True)
 	root = tkinter.Tk()
 	root.attributes("-topmost", True)
@@ -87,14 +117,16 @@ def save_note(text):
 	finally:
 		eel.js_in_execute(False)
 
+
 @eel.expose
 def encrypt_now(filename,fileE,keyE,emailE,sendEmail,fileEOutput):
+	""" Main Encrypt function """
 	global canEncrypt
 	if fileE == 'None':
 		eel.js_modal_error('TOKE SYSTEM','Information entered is incomplete!')
 		return
 	eel.js_in_execute(True)
-	if sendEmail == 'yes': #Check if user will send a email
+	if sendEmail == 'yes': #Check if user will send a email ( Validation )
 		if not backend.isOnline():
 			eel.js_modal_error('TOKE SYSTEM','You are offline.')
 			eel.js_in_execute(False)
@@ -149,8 +181,10 @@ Security Key> {keyE}''')
 				eel.js_modal_error('TOKE SYSTEM',f'Failed to send email')
 		eel.js_in_execute(False)
 
+
 @eel.expose
 def decrypt_now(filenameD,extension,fileTL1E,fileTL2E,keyD,fileEOutputDecrypt):
+	""" Main Decrypt function """
 	global canDecrypt
 	if fileTL1E == 'None' or fileTL2E == 'None' or len(extension) <= 1 or len(filenameD) <= 1:
 		eel.js_modal_error('TOKE SYSTEM','Information entered is incomplete!')
@@ -158,7 +192,7 @@ def decrypt_now(filenameD,extension,fileTL1E,fileTL2E,keyD,fileEOutputDecrypt):
 	if len(keyD) < 1:
 		keyD = ''
 	eel.js_in_execute(True)
-	try:
+	try: # Try to open file
 		fileTl1e = open(fileTL1E, 'r')
 		fileTl1e = fileTl1e.read()
 		fileTl2e = open(fileTL2E, 'r')
@@ -195,8 +229,10 @@ def decrypt_now(filenameD,extension,fileTL1E,fileTL2E,keyD,fileEOutputDecrypt):
 				eel.js_modal_error('TOKE SYSTEM','Decryption failed!')
 				eel.js_in_execute(False)
 
+
 @eel.expose
 def tools_check_update():
+	""" To check Update application """
 	eel.js_in_execute(True)
 	update = backend.check_main_update()
 	if update != None:
@@ -205,14 +241,17 @@ def tools_check_update():
 		eel.js_restore_update()
 	eel.js_in_execute(False)
 
+
 @eel.expose
 def check_connection():
+	""" To check connection user """
 	eel.js_in_execute(True)
 	if backend.isOnline():
 		eel.js_set_check_connection('online')
 	else:
 		eel.js_set_check_connection('offline')
 	eel.js_in_execute(False)
+
 
 @eel.expose
 def main():
@@ -253,5 +292,6 @@ def main():
 			else:
 				raise
 
+
 if __name__ == '__main__':
-	main()
+	main() #init main function

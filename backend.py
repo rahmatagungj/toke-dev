@@ -1,6 +1,6 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
-import random,time,os,sys,datetime,urllib.request,ctypes,re,requests
+import random,time,os,sys,datetime,urllib.request,ctypes,re
 from tkinter import *
 from datetime import date
 import smtplib,ssl
@@ -17,6 +17,7 @@ def rand_sleep(start,end):
 	randomis = random.uniform(start,end)
 	return time.sleep(randomis)
 
+
 def isExpired(datet):
 	datet = str(datet)
 	ExpirationDate = datetime.datetime.strptime(datet,"%Y-%m-%d").date()
@@ -25,6 +26,7 @@ def isExpired(datet):
 		return True
 	else:
 		return False
+
 
 def check_regist(name,key):
 	curr = '';last = ''
@@ -50,6 +52,7 @@ def check_regist(name,key):
 		return 'invalid'
 	return name,curr
 
+
 def write_license(username,license):
 	content = username + '\n' + license
 	with open('license.tlic','w') as lic:
@@ -57,6 +60,7 @@ def write_license(username,license):
 		lic.close()
 		os.system("attrib +h license.tlic" )
 		return True
+
 
 def status_license():
 	if os.path.isfile('license.tlic'):
@@ -87,6 +91,7 @@ def status_license():
 	else:
 		 return 'invalid'
 
+
 def open_license():
 	if os.path.isfile('license.tlic'):
 		filename = open('license.tlic','r')
@@ -98,6 +103,7 @@ def open_license():
 		fusername = 'None'
 		fserial = 'None'
 	return fusername,fserial
+
 
 def check_license():
 	global forusername
@@ -119,6 +125,7 @@ def check_license():
 	else:
 		return 'register'
 
+
 def keygen_make(s):
 	keygens = '';toPull = '';pKey = ''
 	hour24 = datetime.datetime.now().strftime("%H")
@@ -136,6 +143,7 @@ def keygen_make(s):
 	pKey = '|' + pKey
 	return '|' + keygens,pKey[::-1]
 
+
 def keygen_hash(s,r):
 	check = 0;cek=''
 	s = s.replace("|"," ")
@@ -150,6 +158,7 @@ def keygen_hash(s,r):
 		cek += str(esum)
 		check += 1
 	return cek
+
 	
 def encrypt(text,key):
 	text = text[::-1]
@@ -174,6 +183,7 @@ def encrypt(text,key):
 	except:
 		text = str('failed')
 	return text
+
 		
 def decrypt(l1,l2,key):
 	text = keygen_hash(l1,l2)
@@ -200,6 +210,7 @@ def decrypt(l1,l2,key):
 		text = str('failed')
 	return text 
 
+
 def isOnline():
 	try:
 		result = urllib.request.urlopen(f'https://github.com/',timeout=10)
@@ -207,88 +218,13 @@ def isOnline():
 	except:
 		return False
 
-def download_toke_64bit():
-	time.sleep(0.1)
-	try:
-		GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-		get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_64bit.exe",stream=True)
-		with open('temp_TOKE_64bit.exe', 'wb') as f:
-			os.system( "attrib +h temp_TOKE_64bit.exe" )
-			for chunk in get_response.iter_content(chunk_size=1024):
-				if chunk:
-					f.write(chunk)
-	except:
-		try:
-			GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-			get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_64bit.exe",stream=True)
-			with open('temp_TOKE_64bit.exe', 'wb') as f:
-				os.system( "attrib +h temp_TOKE_64bit.exe" )
-				for chunk in get_response.iter_content(chunk_size=1024):
-					if chunk:
-						f.write(chunk)
-		except:
-			return 'failed'
-	try:
-		if getattr(sys, 'frozen', False):
-			bundle_dir = sys._MEIPASS
-		else:
-			bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_64bit.bat'))
-		file = os.path.join(bundle_dir, 'tinit_auto_update_64bit.bat')
-		os.startfile(r"{}".format(file))
-		exit()
-		return 'complete'
-	except:
-		pass
-
-def download_toke_32bit():
-	time.sleep(0.1)
-	try:
-		GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{int(VERSION[2]) + 1}.0')
-		get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{int(VERSION[2]) + 1}.0/TOKE_32bit.exe",stream=True)
-		with open('temp_TOKE_32bit.exe', 'wb') as f:
-			os.system( "attrib +h temp_TOKE_32bit.exe" )
-			for chunk in get_response.iter_content(chunk_size=1024):
-				if chunk:
-					f.write(chunk)
-	except:
-		try:
-			GitHub = urllib.request.urlopen(f'https://github.com/rahmatagungj/toke/releases/tag/v.{VERSION[2]}.{int(VERSION[4]) + 1}')
-			get_response = requests.get(f"https://github.com/rahmatagungj/toke/releases/download/v.{VERSION[2]}.{int(VERSION[4]) + 1}/TOKE_32bit.exe",stream=True)
-			with open('temp_TOKE_32bit.exe', 'wb') as f:
-				os.system( "attrib +h temp_TOKE_32bit.exe" )
-				for chunk in get_response.iter_content(chunk_size=1024):
-					if chunk:
-						f.write(chunk)
-		except:
-			return 'failed'
-	try:
-		if getattr(sys, 'frozen', False):
-			bundle_dir = sys._MEIPASS
-		else:
-			bundle_dir = os.path.dirname(os.path.abspath('tinit_auto_update_32bit.bat'))
-		file = os.path.join(bundle_dir, 'tinit_auto_update_32bit.bat')
-		os.startfile(r"{}".format(file))
-		exit()
-		return 'complete'
-	except:
-		pass
-
-def init_auto_update():
-	# iver = os.path.split(sys.argv[0])[1][5:7:]
-	iver = 64
-	if int(iver) == 32:
-		update = download_toke_32bit()
-		return update
-	else:
-		update = download_toke_32bit()
-		return update
-
 def isEmail(email):  
 	regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 	if(re.search(regex,email)):  
 		return True  
 	else:  
 		return False 
+
 
 def email(emailed,file,filename,key):
 	mail_content = f'''
@@ -336,7 +272,7 @@ def email(emailed,file,filename,key):
 				return 'failed'
 	except:
 		return 'Something went wrong'
-		
+
 
 def check_main_update():
 	for check in range(5):
@@ -351,12 +287,14 @@ def check_main_update():
 				except:
 					pass
 
+
 def make_auto_update():
 	if isOnline():
 		update = init_auto_update()
 		return update 
 	else:
 		return 'offline'
+
 
 def make_license_check():
 	username, serial = open_license()
@@ -379,6 +317,7 @@ def make_license_check():
 		return curr,tdate,'Expired'
 	else:
 		return curr,tdate,'Valid'
+
 		
 def remove_license():
 	if os.path.isfile('license.tlic'):
@@ -387,6 +326,7 @@ def remove_license():
 		except:
 			remove_license()
 	return True
+
 
 def killme():
 	os.system("taskkill /F /IM toke_64bit.exe /T")

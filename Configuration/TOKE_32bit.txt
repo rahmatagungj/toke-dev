@@ -1,0 +1,1 @@
+python -m eel main.py GUI --onefile --noconsole --icon "C:/Users/RAHMATAJ/Desktop/DEV/Documentation/LOGO.ico" --name "TOKE_32bit" --ascii --clean --version-file "C:/Users/RAHMATAJ/Desktop/DEV/Configuration/file_version_info_32bit.txt" --add-data "C:/Users/RAHMATAJ/Desktop/DEV/backend.py;."

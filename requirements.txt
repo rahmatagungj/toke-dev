@@ -1,6 +1,1 @@
 pyinstaller
-bottle
-bottle-websocket
-future
-whichcraft
-pyparsing

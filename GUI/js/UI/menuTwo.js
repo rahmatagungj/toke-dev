@@ -14,7 +14,13 @@ export default function menuTwo(){
 			text_email: 'Email',
 			text_email_checkbox: 'Send results to email',
 			text_result: 'RESULT',
-			text_button_execute: 'ENCRYPT NOW'
+			text_button_execute: 'ENCRYPT NOW',
+			button_file: {
+				width: '100%'
+			},
+			no_resize: {
+				resize: 'none'
+			}
 		},
 		components: {
 			'badgenew': {

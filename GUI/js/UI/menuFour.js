@@ -5,7 +5,10 @@ export default function menuFour(){
 			show: true,
 			text_editor: 'Text Editor',
 			button_open: 'OPEN',
-			button_save: 'SAVE'
+			button_save: 'SAVE',
+			no_resize: {
+				resize: 'none'
+			}
 		},
 		methods:{
 			openFile: function(){
