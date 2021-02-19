@@ -1,229 +1,306 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Two Original Key Encryption</title>
-		<link rel="icon" type="image/png" href="/image/logo.ico"/>
-		<link type="text/css" rel="stylesheet" href="/css/main.css"/>
-		<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
-		<link type="text/css" rel="stylesheet" href="/css/all.min.css" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W4140HYN2D"></script>
-		<script type="text/javascript" src="/eel.js"></script>
-		<script type="text/javascript" src="/js/vue.min.js"></script>
-		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/js/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/toast.min.js"></script>
-		<script type="text/javascript" src="/js/api.js"></script>
-		<script type="module" src="/js/UI/base.js"></script>
-	</head>
-	<body>
-		<div class="sticky-top">
-			<div id="myhead"><toke-head></toke-head></div>
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs orange" id="myTab" role="tablist" v-if="show">
-				<li class="nav-item" role="presentation">
-					<a class="nav-link active" id="menu-one-tab" data-bs-toggle="tab" href="#menu-one" role="tab" aria-controls="menu-one" aria-selected="true"><menu-one></menu-one> {{ menuOne }}</a>
-				</li>
-				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-two-tab" data-bs-toggle="tab" href="#menu-two" role="tab" aria-controls="menu-two" aria-selected="false"><menu-two></menu-two> {{ menuTwo }}</a>
-				</li>
-				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-there-tab" data-bs-toggle="tab" href="#menu-there" role="tab" aria-controls="menu-there" aria-selected="false"><menu-there></menu-there> {{ menuThere }}</a>
-				</li>
-				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-four-tab" data-bs-toggle="tab" href="#menu-four" role="tab" aria-controls="menu-four" aria-selected="false"><menu-four></menu-four> {{ menuFour }}</a>
-				</li>
-				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="menu-five-tab" data-bs-toggle="tab" href="#menu-five" role="tab" aria-controls="menu-five" aria-selected="false"><menu-five></menu-five> {{ menuFive }}</a>
-				</li>
-			</ul>
+
+<head>
+	<title>Two Original Key Encryption</title>
+	<link rel="icon" type="image/png" href="./image/logo.ico" />
+	<link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="./css/main.css" />
+	<link type="text/css" rel="stylesheet" href="./css/all.min.css" />
+	<link type="text/css" rel="stylesheet" href="./css/duDialog.min.css" />
+	<link type="text/css" rel="stylesheet" href="./css/hover-min.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-W4140HYN2D"></script>
+	<script type="text/javascript" src="./eel.js"></script>
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/vue.min.js"></script>
+	<script type="text/javascript" src="./js/api.js"></script>
+	<script type="text/javascript" src="./js/duDialog.min.js"></script>
+	<script type="module" src="./js/UI/base.js"></script>
+	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="sticky-top">
+		<div id="myhead" v-if="show">
+			<toke-head></toke-head>
+			<div class="action-button">
+				<a class="act-btn-info hvr-pulse" @click="toInfo">
+					<i class="fa fa-info-circle"></i>
+				</a>
+				<a class="act-btn-github hvr-pulse" @click="toGithub">
+					<i class="fab fa-github"></i>
+				</a>
+				<a class="act-btn-package hvr-pulse" @click="toPackage">
+					<i class="fa fa-box"></i>
+				</a>
+			</div>
 		</div>
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<div class="tab-pane active" id="menu-one" role="tabpanel" aria-labelledby="menu-one-tab" v-if="show">
-				<div class="container">
-					<div class="col-12">
-						<br/>
-						<jumbotron></jumbotron>
-						<br/>
-						<h4 v-text="text_main"></h4>
-						<div class="row" v-bind:style="card1">
-							<div class="col" id="card1" v-for="content1 in content1" keys="content.title">
-								<div class="card" v-bind:style="card2">
-									<div class="card-body">
-										<h5 class="card-title" v-text="content1.title"></h5>
-										<p class="card-text" v-text="content1.text"></p>
-									</div>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs orange" id="myTab" role="tablist" v-if="show">
+			<li class="nav-item" role="presentation">
+				<a class="nav-link active" id="menu-one-tab" data-bs-toggle="tab" href="#menu-one" role="tab"
+					aria-controls="menu-one" aria-selected="true">
+					<menu-one></menu-one> <span>{{ menuOne }}</span>
+				</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link " id="menu-two-tab" data-bs-toggle="tab" href="#menu-two" role="tab"
+					aria-controls="menu-two" aria-selected="false">
+					<menu-two></menu-two> <span>{{ menuTwo }}</span>
+				</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link " id="menu-there-tab" data-bs-toggle="tab" href="#menu-there" role="tab"
+					aria-controls="menu-there" aria-selected="false">
+					<menu-there></menu-there> <span>{{ menuThere }}</span>
+				</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link " id="menu-four-tab" data-bs-toggle="tab" href="#menu-four" role="tab"
+					aria-controls="menu-four" aria-selected="false">
+					<menu-four></menu-four> <span>{{ menuFour }}</span>
+				</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link " id="menu-five-tab" data-bs-toggle="tab" href="#menu-five" role="tab"
+					aria-controls="menu-five" aria-selected="false">
+					<menu-five></menu-five> <span>{{ menuFive }}</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div class="tab-pane fade show active" id="menu-one" role="tabpanel" aria-labelledby="menu-one-tab" v-if="show">
+			<div class="container">
+				<div class="col-12">
+					<br />
+					<jumbotron></jumbotron>
+					<br />
+					<h4 v-text="text_main"></h4>
+					<div class="row" :style="card1">
+						<div class="col" id="card1" v-for="content1 in content1" keys="content.title">
+							<div class="card" :style="card2">
+								<div class="card-body">
+									<h5 class="card-title" v-text="content1.title"></h5>
+									<p class="card-text" v-text="content1.text"></p>
 								</div>
 							</div>
 						</div>
-						<br/>
-						<div class="row" v-bind:style="card1">
-							<div class="col" id="card1" v-for="content2 in content2" keys="content.title">
-								<div class="card" v-bind:style="card2">
-									<div class="card-body">
-										<h5 class="card-title" v-text="content2.title"></h5>
-										<p class="card-text" v-text="content2.text"></p>
-									</div>
+					</div>
+					<br />
+					<div class="row" :style="card1">
+						<div class="col" id="card1" v-for="content2 in content2" keys="content.title">
+							<div class="card" :style="card2">
+								<div class="card-body">
+									<h5 class="card-title" v-text="content2.title"></h5>
+									<p class="card-text" v-text="content2.text"></p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane" id="menu-two" role="tabpanel" aria-labelledby="menu-two-tab" v-if="show">
-				<div class="container">
-					<br/>
-					<div class="row">
+		</div>
+		<div class="tab-pane fade" id="menu-two" role="tabpanel" aria-labelledby="menu-two-tab" v-if="show">
+			<div class="container">
+				<br />
+				<div class="row">
+					<div class="col-12">
 						<h5 v-text="text_file_location"></h5>
-						<div class="col-9 toPath" id="toPath" v-text="text_placeholder_file_location"></div>
-						<div class="col-3" id="buttonEncrypt">
-							<button type="button" class="btn btn-info" v-on:click="fileEncrypt" v-bind:style="button_file" v-text="button_file_location"></button>
-						</div>
 					</div>
-					<br/>
-					<div class="row">
+					<div class="col-9 toPath" id="toPath" v-text="text_placeholder_file_location"></div>
+					<div class="col-3" id="buttonEncrypt">
+						<button type="button" class="btn btn-info hvr-back-pulse" @click="fileEncrypt" :style="button_file"
+							v-text="button_file_location"></button>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-12">
 						<h5 v-text="text_output_location"></h5>
-						<div class="col-9 toPath" id="toPathOutput" v-text="text_placeholder_output_location"></div>
-						<div class="col-3" id="buttonEncrypt">
-							<button type="button" class="btn btn-info" v-on:click="fileEncryptOutput" v-bind:style="button_file" v-text="button_output_location"></button>
+					</div>
+					<div class="col-9 toPath" id="toPathOutput" v-text="text_placeholder_output_location"></div>
+					<div class="col-3" id="buttonEncrypt">
+						<button type="button" class="btn btn-info " @click="fileEncryptOutput" :style="button_file"
+							v-text="button_output_location"></button>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-4">
+						<h5 v-text="text_security_key"></h5>
+					</div>
+					<div class="col-8">
+						<h5 v-text="text_output_filename"></h5>
+					</div>
+					<div class="col-4" id="securitykey">
+						<input type="text" class="form-control dark" placeholder="4 digits" aria-label="4 digits"
+							aria-describedby="basic-addon1" id="keyE">
+					</div>
+					<div class="col-8" id="securitykey">
+						<input type="text" class="form-control dark" placeholder="example" aria-label="example"
+							aria-describedby="basic-addon1" id="filenameE">
+					</div>
+				</div><br />
+				<div class="row">
+					<div class="col-12">
+						<h5> {{ text_email }} <badgenew></badgenew>
+						</h5>
+					</div>
+					<div class="col-12">
+						<input class="form-check-input" type="checkbox" value="" id="sendEmail" value="no">
+						<label class="form-check-label" for="flexCheckDefault" v-text="text_email_checkbox"></label>
+						<div id="toEmail">
+							<input type="text" class="form-control dark" placeholder="example@gmail.com"
+								aria-label="example@gmail.com" aria-describedby="basic-addon1" id="emailE" value="">
 						</div>
 					</div>
-					<br/>
-					<div class="row">
-						<div class="col-4">
-							<h5 v-text="text_security_key"></h5>
-							<div class="col-12" id="securitykey">
-								<input type="text" class="form-control dark" placeholder="4 digits" aria-label="4 digits" aria-describedby="basic-addon1" id="keyE">
-							</div>
-						</div>
-						<div class="col-8">
-							<h5 v-text="text_output_filename"></h5>
-							<div class="col-12" id="securitykey">
-								<input type="text" class="form-control dark" placeholder="example" aria-label="example" aria-describedby="basic-addon1" id="filenameE">
-							</div>
-						</div>
-					</div><br/>
-					<div class="row">
+				</div>
+				<br />
+				<div class="row result">
+					<h5 v-text="text_result"></h5>
+					<div class="col-12 limitpad">
+						<textarea class="form-control dark" id="layer1" rows="3" readonly :style="no_resize">
+							</textarea>
+					</div>
+				</div>
+				<br />
+				<div class="row sticky-bottom">
+					<div class="d-grid gap-2">
+						<button class="btn btn-primary blue hvr-glow" type="button" @click="encrypt" id="buttonExecute"
+							v-text="text_button_execute"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="menu-there" role="tabpanel" aria-labelledby="menu-there-tab" v-if="show">
+			<div class="container">
+				<br />
+				<div class="row">
+					<h5 v-text="text_file_location"></h5>
+					<div class="col-9 toPath" id="toPathTL1E" v-text="text_placeholder_tl1e"></div>
+					<div class="col-3">
+						<button type="button" class="btn btn-info " @click="getTL1E" :style="button_file"
+							v-text="button_tl1e"></button>
+					</div>
+					<div class="miniPadding"></div>
+					<div class="col-9 toPath" id="toPathTL2E" v-text="text_placeholder_tl2e"></div>
+					<div class="col-3">
+						<button type="button" class="btn btn-info " @click="getTL2E" :style="button_file"
+							v-text="button_tl2e"></button>
+					</div>
+				</div> <br />
+				<div class="row">
+					<h5 v-text="text_output_location"></h5>
+					<div class="col-9 toPath" id="toPathOutputDecrypt" v-text="text_placeholder_output_location"></div>
+					<div class="col-3">
+						<button type="button" class="btn btn-info " @click="outputFile" :style="button_file"
+							v-text="button_output_location"></button>
+					</div>
+				</div>
+				<div class="miniPadding"></div>
+				<div class="miniPadding"></div>
+				<div class="row">
+					<div class="col-4">
+						<h5 v-text="text_security_key"></h5>
 						<div class="col-12">
-							<h5> {{ text_email }} <badgenew></badgenew></h5>
-							<input class="form-check-input" type="checkbox" value="" id="sendEmail" value="no">
-							<label class="form-check-label" for="flexCheckDefault" v-text="text_email_checkbox"></label>
-							<div class="col-12" id="toEmail">
-								<input type="text" class="form-control dark" placeholder="example@gmail.com" aria-label="example@gmail.com" aria-describedby="basic-addon1" id="emailE" value="">
-							</div>
+							<input type="text" class="form-control dark" placeholder="4 digits" aria-label="4 digits"
+								aria-describedby="basic-addon1" id="keyD">
 						</div>
 					</div>
-					<br/>
-					<div class="row result">
-						<h5 v-text="text_result"></h5>
-						<div class="col-12 limitpad">
-							<textarea class="form-control dark" id="layer1" rows="3" readonly v-bind:style="no_resize">
+					<div class="col-5">
+						<h5 v-text="text_output_filename"></h5>
+						<div class="col-12">
+							<input type="text" class="form-control dark" placeholder="example" aria-label="example"
+								aria-describedby="basic-addon1" id="filenameD">
+						</div>
+					</div>
+					<div class="col-3">
+						<h5 v-text="text_extension"></h5>
+						<div class="col-12">
+							<input type="text" class="form-control dark" placeholder="txt" aria-label="txt"
+								aria-describedby="basic-addon1" id="extensionD">
+						</div>
+					</div>
+					<div class="miniPadding"></div>
+					<div class="miniPadding"></div>
+					<h5 v-text="text_result"></h5>
+					<div class="col-12 limitpad">
+						<textarea class="form-control dark" id="layer2" rows="3" readonly :style="no_resize">
 							</textarea>
-						</div>
 					</div>
-					<br/>
-					<div class="row sticky-bottom">
-						<div class="d-grid gap-2">
-							<button class="btn btn-primary blue" type="button" v-on:click="encrypt" id="buttonExecute" v-text="text_button_execute"></button>
-						</div>
+					<div class="miniPadding"></div>
+					<div class="miniPadding"></div>
+					<div class="d-grid gap-2 sticky-bottom">
+						<button class="btn btn-primary blue hvr-glow" type="button" @click="decrypt" id="buttonExecute"
+							v-text="text_button_execute"></button>
 					</div>
 				</div>
+				<br />
 			</div>
-			<div class="tab-pane" id="menu-there" role="tabpanel" aria-labelledby="menu-there-tab" v-if="show">
-				<div class="container">
-					<br/>
-					<div class="row">
-						<h5 v-text="text_file_location"></h5>
-						<div class="col-9 toPath" id="toPathTL1E" v-text="text_placeholder_tl1e"></div>
-						<div class="col-3">
-							<button type="button" class="btn btn-info" v-on:click="getTL1E" v-bind:style="button_file" v-text="button_tl1e"></button>
-						</div>
-						<div class="miniPadding"></div>
-						<div class="col-9 toPath" id="toPathTL2E" v-text="text_placeholder_tl2e"></div>
-						<div class="col-3">
-							<button type="button" class="btn btn-info" v-on:click="getTL2E" v-bind:style="button_file" v-text="button_tl2e"></button>
-						</div>
-					</div> <br/>
-					<div class="row">
-						<h5 v-text="text_output_location"></h5>
-						<div class="col-9 toPath" id="toPathOutputDecrypt" v-text="text_placeholder_output_location"></div>
-						<div class="col-3">
-							<button type="button" class="btn btn-info" v-on:click="outputFile" v-bind:style="button_file" v-text="button_output_location"></button>
-						</div>
-					</div>
-					<div class="miniPadding"></div><div class="miniPadding"></div>
-					<div class="row">
-						<div class="col-4">
-							<h5 v-text="text_security_key"></h5>
-							<div class="col-12">
-								<input type="text" class="form-control dark" placeholder="4 digits" aria-label="4 digits" aria-describedby="basic-addon1" id="keyD">
-							</div>
-						</div>
-						<div class="col-5">
-							<h5 v-text="text_output_filename"></h5>
-							<div class="col-12">
-								<input type="text" class="form-control dark" placeholder="example" aria-label="example" aria-describedby="basic-addon1" id="filenameD">
-							</div>
-						</div>
-						<div class="col-3">
-							<h5 v-text="text_extension"></h5>
-							<div class="col-12">
-								<input type="text" class="form-control dark" placeholder="txt" aria-label="txt" aria-describedby="basic-addon1" id="extensionD">
-							</div>
-						</div>
-						<div class="miniPadding"></div><div class="miniPadding"></div>
-						<h5 v-text="text_result"></h5>
-						<div class="col-12 limitpad">
-							<textarea class="form-control dark" id="layer2" rows="3" readonly v-bind:style="no_resize">
-							</textarea>
-						</div>
-						<div class="miniPadding"></div><div class="miniPadding"></div>
-						<div class="d-grid gap-2 sticky-bottom">
-							<button class="btn btn-primary blue" type="button" v-on:click="decrypt" id="buttonExecute" v-text="text_button_execute"></button>
-						</div>
-					</div>
-					<br/>
-				</div>
-			</div>
-			<div class="tab-pane" id="menu-four" role="tabpanel" aria-labelledby="menu-four-tab" v-if="show">
-				<div class="container">
-					<br/>
-					<h5 v-text="text_editor"></h5>
-					<div class="col-12">
-						<textarea class="form-control dark" id="textNote" rows="16" v-bind:style="no_resize">
+		</div>
+		<div class="tab-pane fade" id="menu-four" role="tabpanel" aria-labelledby="menu-four-tab" v-if="show">
+			<div class="container">
+				<br />
+				<h5 v-text="text_editor"></h5>
+				<div class="col-12">
+					<textarea class="form-control dark" id="textNote" rows="16" :style="no_resize">
 						</textarea>
-					</div><br/>
-					<div class="row sticky-bottom">
-						<div class="col-6 d-grid">
-							<button class="btn btn-primary blue" type="button" v-on:click="openFile" id="buttonExecute" v-text="button_open"></button>
-						</div>
-						<div class="col-6 d-grid">
-							<button class="btn btn-primary blue" type="button" v-on:click="saveFile" id="buttonExecute" v-text="button_save"></button>
-						</div>
+				</div><br />
+				<div class="row sticky-bottom">
+					<div class="col-6 d-grid">
+						<button class="btn btn-primary blue hvr-glow" type="button" @click="openFile" id="buttonExecute"
+							v-text="button_open"></button>
 					</div>
-				</div>
-			</div>
-			<div class="tab-pane" id="menu-five" role="tabpanel" aria-labelledby="menu-five-tab" v-if="show">
-				<div class="container">
-					<br/>
-					<h5 v-text="text_tools"></h5>
-					<div class="row">
-						<div class="col">
-							<button type="button" v-bind:class="[button_style]" id="check-connection" v-on:click="connection" v-text="button_connection"></button>
-						</div>
-						<div class="col">
-							<button type="button" v-bind:class="[button_style]" id="check-update" v-on:click="update" v-text="button_update"></button>
-						</div>
-						<div class="col">
-							<button type="button" v-bind:class="[button_style]" id="check-version" v-on:click="version" v-text="button_version"></button>
-						</div>
-						<div class="col">
-							<button type="button" v-bind:class="[button_style]" v-on:click="system" v-text="button_system"></button>
-						</div>
+					<div class="col-6 d-grid">
+						<button class="btn btn-primary blue hvr-glow" type="button" @click="saveFile" id="buttonExecute"
+							v-text="button_save"></button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</body>
+		<div class="tab-pane fade" id="menu-five" role="tabpanel" aria-labelledby="menu-five-tab" v-if="show">
+			<div class="container">
+				<br />
+				<h5 v-text="text_tools"></h5>
+				<div class="row">
+					<div class="col">
+						<button type="button" :class="[button_style]" id="check-connection" @click="connection"
+							v-text="button_connection"></button>
+					</div>
+					<div class="col">
+						<button type="button" :class="[button_style]" id="check-update" @click="update"
+							v-text="button_update"></button>
+					</div>
+					<div class="col">
+						<button type="button" :class="[button_style]" id="check-version" @click="version"
+							v-text="button_version"></button>
+					</div>
+					<div class="col">
+						<button type="button" :class="[button_style]" @click="system" v-text="button_system"></button>
+					</div>
+				</div><br />
+				<div class="row">
+					<div class="col">
+						<button type="button" :class="[button_style]" id="cmd" @click="cmd"
+							v-text="button_cmd"></button>
+					</div>
+					<div class="col">
+						<button type="button" :class="[button_style]" id="notepad" @click="notepad"
+							v-text="button_notepad"></button>
+					</div>
+					<div class="col">
+						<button type="button" :class="[button_style]" id="calc" @click="calc"
+							v-text="button_calc"></button>
+					</div>
+					<div class="col">
+						<button type="button" :class="[button_style]" @click="regedit" v-text="button_regedit"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
 </html>

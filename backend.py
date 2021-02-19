@@ -10,12 +10,12 @@ from email.mime.application import MIMEApplication
 from os.path import basename
 
 # GLOBAL VARIABLE
-VERSION = 'v.1.6'
+VERSION = 'v.1.7'
 MessageBox = ctypes.windll.user32.MessageBoxW
 
 def rand_sleep(start,end):
-	randomis = random.uniform(start,end)
-	return time.sleep(randomis)
+	result = random.uniform(start,end)
+	return time.sleep(result)
 
 
 def isExpired(datet):
@@ -30,7 +30,7 @@ def isExpired(datet):
 
 def check_regist(name,key):
 	curr = '';last = ''
-	ndate = ''; tdate = ''
+	nDate = ''; tdate = ''
 	key = key.replace("-"," ")
 	mins = key.split()
 	mins = mins[10][::-1]
@@ -58,7 +58,7 @@ def write_license(username,license):
 	with open('license.tlic','w') as lic:
 		lic.write(content)
 		lic.close()
-		os.system("attrib +h license.tlic" )
+		os.system("attrib +h license.tlic" ) #make system hide file license
 		return True
 
 
@@ -286,14 +286,6 @@ def check_main_update():
 					return f'v.{VERSION[2]}.{int(VERSION[4]) + check_sub  + 1}'
 				except:
 					pass
-
-
-def make_auto_update():
-	if isOnline():
-		update = init_auto_update()
-		return update 
-	else:
-		return 'offline'
 
 
 def make_license_check():

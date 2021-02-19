@@ -1,6 +1,6 @@
 # Copyright (c) 2020-2021 Rahmat Agung Julians
 
-import eel
+import eel,pyrebase
 import os,platform,sys,threading,time,socket
 import tkinter 
 from tkinter.filedialog import askopenfilename,asksaveasfilename,askdirectory
@@ -9,17 +9,17 @@ import backend as backend
 #GLOBAL VARIABLE
 DEVMODE = False
 canDecrypt = False	
-canEncrypt = False
+canEncrypt = False 
 
 eel.init('GUI',allowed_extensions=['.js', '.html','.css'])
 
 def get_port():
-    """ Get an available port by starting a new server, stopping and and returning the port """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(('localhost', 0))
-    port = sock.getsockname()[1]
-    sock.close()
-    return port
+	""" Get an available port by starting a new server, stopping and and returning the port """
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.bind(('localhost', 0))
+	port = sock.getsockname()[1]
+	sock.close()
+	return port 
 
 
 def startup_check_update():
@@ -33,7 +33,7 @@ def startup_check_update():
 @eel.expose
 def check_version():
 	""" Check version from tools """
-	eel.js_modal_info('TOKE SYSTEM',"Currently at {}".format(backend.VERSION.upper()))
+	eel.js_modal('TOKE SYSTEM',"Currently at {}".format(backend.VERSION.upper()))
 
 
 @eel.expose
@@ -53,9 +53,9 @@ def check_system():
 		point += 5
 
 	if point >= 20:
-		eel.js_modal_info('TOKE SYSTEM','System checked successfully, no failures.')
+		eel.js_modal('TOKE SYSTEM','System checked successfully, no failures.')
 	else:
-		eel.js_modal_error('TOKE SYSTEM','System checked successfully, with failure.')
+		eel.js_modal('TOKE SYSTEM','System checked successfully, with failure.')
 	eel.js_in_execute(False)
 
 
@@ -66,7 +66,7 @@ def pick_file(mode):
 	root = tkinter.Tk()
 	root.attributes("-topmost", True)
 	root.withdraw()
-	if mode == 'encrypt':
+	if mode == 'encrypt': 
 		filepath = askopenfilename(filetypes=(("text files","*.txt"),("All files","*.*")), parent=root)
 		if len(filepath) > 0:
 			eel.js_set_path(filepath)
@@ -90,12 +90,13 @@ def pick_file(mode):
 		filepath = askopenfilename(filetypes=(("text files","*.txt"),("All files","*.*")), parent=root)
 		if len(filepath) > 0:
 			try:
+				# If condition can be error or normal
 				note = open(filepath)
 				text = note.read()
 				eel.js_set_note(text)
 				note.close()
 			except:
-				eel.js_modal_error('TOKE SYSTEM','File Not Supported!')
+				eel.js_modal('TOKE SYSTEM','File Not Supported!') #show error
 	eel.js_in_execute(False)
 
 
@@ -111,11 +112,11 @@ def save_note(text):
 		note = open(withSave, 'w')
 		note.write(text)
 		note.close()
-		eel.js_modal_success('TOKE SYSTEM','Saved successfully')
+		eel.js_modal('TOKE SYSTEM','Saved successfully')
+		eel.js_in_execute(False)
 	except:
 		eel.js_in_execute(False)
-	finally:
-		eel.js_in_execute(False)
+	
 
 
 @eel.expose
@@ -123,31 +124,33 @@ def encrypt_now(filename,fileE,keyE,emailE,sendEmail,fileEOutput):
 	""" Main Encrypt function """
 	global canEncrypt
 	if fileE == 'None':
-		eel.js_modal_error('TOKE SYSTEM','Information entered is incomplete!')
+		eel.js_modal('TOKE SYSTEM','Information entered is incomplete!')
 		return
 	eel.js_in_execute(True)
 	if sendEmail == 'yes': #Check if user will send a email ( Validation )
 		if not backend.isOnline():
-			eel.js_modal_error('TOKE SYSTEM','You are offline.')
+			eel.js_modal('TOKE SYSTEM','You are offline.')
 			eel.js_in_execute(False)
 			return 
 		if not backend.isEmail(str(emailE)):
-			eel.js_modal_error('TOKE SYSTEM','Invalid email address.')
+			eel.js_modal('TOKE SYSTEM','Invalid email address.')
 			eel.js_in_execute(False)
 			return
 	else:
 		pass 
 	try:
-		inp = open(fileE, 'r')
-		inp = inp.read()
+		fileToOpen = open(fileE, 'r')
+		textFile = fileToOpen.read()
+		fileToOpen.close()
 		canEncrypt = True
 	except:
 		canEncrypt = False
-		eel.js_modal_error('TOKE SYSTEM','File Not Supported!')
+		eel.js_modal('TOKE SYSTEM','File Not Supported!')
 		eel.js_in_execute(False)
 		return
 	if canEncrypt:
-		layer = backend.encrypt(inp,str(keyE))
+		""" If condition can be encrypt """
+		layer = backend.encrypt(textFile,str(keyE))
 		if len(filename) <= 1:
 			filename = 'encrypted'
 		with open('{}.tl1e'.format(filename), 'w') as x_file:
@@ -158,7 +161,7 @@ def encrypt_now(filename,fileE,keyE,emailE,sendEmail,fileEOutput):
 			x_file.close()
 		if keyE == '':
 			keyE = 'without security key'
-		eel.js_modal_success('TOKE SYSTEM','Encryption Success')
+		eel.js_modal('TOKE SYSTEM','Encryption Success')
 		if str(fileEOutput) == 'None':
 			fileEOutput = ""
 		toDir = str(fileEOutput)
@@ -176,9 +179,9 @@ Security Key> {keyE}''')
 		if sendEmail == 'yes':
 			emailed = backend.email(emailE,fileE,str(filename),str(keyE))
 			if emailed == 'success':
-				eel.js_modal_info('TOKE SYSTEM',f'Email sent successfully')
+				eel.js_modal('TOKE SYSTEM',f'Email sent successfully')
 			else:
-				eel.js_modal_error('TOKE SYSTEM',f'Failed to send email')
+				eel.js_modal('TOKE SYSTEM',f'Failed to send email')
 		eel.js_in_execute(False)
 
 
@@ -187,7 +190,7 @@ def decrypt_now(filenameD,extension,fileTL1E,fileTL2E,keyD,fileEOutputDecrypt):
 	""" Main Decrypt function """
 	global canDecrypt
 	if fileTL1E == 'None' or fileTL2E == 'None' or len(extension) <= 1 or len(filenameD) <= 1:
-		eel.js_modal_error('TOKE SYSTEM','Information entered is incomplete!')
+		eel.js_modal('TOKE SYSTEM','Information entered is incomplete!')
 		return
 	if len(keyD) < 1:
 		keyD = ''
@@ -200,13 +203,13 @@ def decrypt_now(filenameD,extension,fileTL1E,fileTL2E,keyD,fileEOutputDecrypt):
 		canDecrypt = True
 	except:
 		canDecrypt = False
-		eel.js_modal_error('TOKE SYSTEM','Invalid file path!')
+		eel.js_modal('TOKE SYSTEM','Invalid file path!')
 		eel.js_in_execute(False)
 		return
 	if canDecrypt:
 		curr_dec = backend.decrypt(fileTl1e,fileTl2e,str(keyD))
 		if curr_dec == 'failed':
-			eel.js_modal_error('TOKE SYSTEM','Decryption failed!')
+			eel.js_modal('TOKE SYSTEM','Decryption failed!')
 			eel.js_in_execute(False)
 		else:
 			try:
@@ -222,11 +225,11 @@ def decrypt_now(filenameD,extension,fileTL1E,fileTL2E,keyD,fileEOutputDecrypt):
 					except:
 						originalFile = '{}.{}'.format(filenameD,extension)
 					eel.js_set_result_decrypt(f'''ORIGINAL FILE> {originalFile}''')
-					eel.js_modal_success('TOKE SYSTEM','Decryption success!')
+					eel.js_modal('TOKE SYSTEM','Decryption success!')
 					eel.js_in_execute(False)
 			except:
 				os.remove('{}.{}'.format(filenameD,extension))
-				eel.js_modal_error('TOKE SYSTEM','Decryption failed!')
+				eel.js_modal('TOKE SYSTEM','Decryption failed!')
 				eel.js_in_execute(False)
 
 
@@ -252,6 +255,15 @@ def check_connection():
 		eel.js_set_check_connection('offline')
 	eel.js_in_execute(False)
 
+@eel.expose
+def start_app(apps):
+	""" From Tools to start app """
+	eel.js_in_execute(True)
+	try:
+		os.system(f'start {apps}')
+	except Exception as e:
+		eel.js_modal('TOKE SYSTEM',f'Failed to open {apps}, {e}')
+	eel.js_in_execute(False)
 
 @eel.expose
 def main():
@@ -290,7 +302,7 @@ def main():
 			if sys.platform in ['win32', 'win64'] and int(platform.release()) >= 10:
 				eel.start('index.html',host=inHost,mode='edge',size=(550, 700),port=inPort,disable_cookie=True)
 			else:
-				raise
+				backend.MessageBox(0,'Failed to start application, error code : 2307-1', 'TOKE SYSTEM',16)
 
 
 if __name__ == '__main__':

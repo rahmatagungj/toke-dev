@@ -1,19 +1,9 @@
-import header from './header.js';
-import navbar from './navbar.js';
-import menuOne from './menuOne.js';
-import menuTwo from './menuTwo.js';
-import menuThere from './menuThere.js';
-import menuFour from './menuFour.js';
-import menuFive from './menuFive.js';
+import './component/header.js';
+import './component/navbar.js';
+import './component/menuOne.js';
+import './component/menuTwo.js';
+import './component/menuThere.js';
+import './component/menuFour.js';
+import './component/menuFive.js';
 
-var renderUI = () => {
-	header();
-	navbar();
-	menuOne();
-	menuTwo();
-	menuThere();
-	menuFour();
-	menuFive();
-}
-
-renderUI()
+// ALL COMPONENT RENDER HERE

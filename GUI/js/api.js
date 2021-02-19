@@ -2,7 +2,6 @@ async function get_file(){
 	let path = await eel.pick_file('encrypt');
 }
 
-
 async function get_file_tl1e(){
 	let path = await eel.pick_file('decrypt_tl1e');
 }
@@ -125,132 +124,97 @@ function js_check_system(){
 
 
 // MODAL SHOW 
-eel.expose(js_modal_error)
-function js_modal_error(title,message){
-	const options = {
-	  settings: {
-        duration: 3000,
-      },
-      style: {
-        main: {
-          background: "#e8505b",
-          color: "#fff",
-	      },
-	  },
-	};
-	iqwerty.toast.toast(message, options);
+eel.expose(js_modal)
+function js_modal(title,message){
+	new duDialog(title, message);
 }
-
-
-eel.expose(js_modal_success)
-function js_modal_success(title,message){
-	const options = {
-	  settings: {
-        duration: 3000,
-      },
-      style: {
-        main: {
-          background: "#14b1ab",
-          color: "#fff",
-	      },
-	  },
-	};
-	iqwerty.toast.toast(message, options);
-}
-
-
-eel.expose(js_modal_info)
-function js_modal_info(title,message){
-	const options = {
-	  settings: {
-        duration: 3000,
-      },
-      style: {
-        main: {
-          background: "#62959c",
-          color: "#fff",
-	      },
-	  },
-	};
-	iqwerty.toast.toast(message, options);
-}
-
-
-eel.expose(js_modal_warning)
-function js_modal_warning(title,message){
-	const options = {
-	  settings: {
-        duration: 3000,
-      },
-      style: {
-        main: {
-          background: "#f9d56e",
-          color: "#fff",
-	      },
-	  },
-	};
-	iqwerty.toast.toast(message, options);
-}
-
 
 // Security
-function js_disable_right_click(){
-	$(function() {
-        $(this).bind("contextmenu", function(e) {
-            e.preventDefault();
-        });
-    });
-}
+// function js_disable_right_click(){
+// 	$(function() {
+//         $(this).bind("contextmenu", function(e) {
+//             e.preventDefault();
+//         });
+//     });
+// }
 
 
-function js_disable_reload(){
-	var ctrlKeyDown = false;
+// function js_disable_reload(){
+// 	var ctrlKeyDown = false;
 
-	$(document).ready(function(){    
-	    $(document).on("keydown", keydown);
-	    $(document).on("keyup", keyup);
-	});
+// 	$(document).ready(function(){    
+// 	    $(document).on("keydown", keydown);
+// 	    $(document).on("keyup", keyup);
+// 	});
 
-	function keydown(e) { 
-	    if ((e.which || e.keyCode) == 116 || ((e.which || e.keyCode) == 82 && ctrlKeyDown)) {
-	        e.preventDefault();
-	    } else if ((e.which || e.keyCode) == 17) {
-	        ctrlKeyDown = true;
-	    }
-	};
+// 	function keydown(e) { 
+// 	    if ((e.which || e.keyCode) == 116 || ((e.which || e.keyCode) == 82 && ctrlKeyDown)) {
+// 	        e.preventDefault();
+// 	    } else if ((e.which || e.keyCode) == 17) {
+// 	        ctrlKeyDown = true;
+// 	    }
+// 	};
 
-	function keyup(e){
-	    if ((e.which || e.keyCode) == 17) 
-	        ctrlKeyDown = false;
-	};
-}
+// 	function keyup(e){
+// 	    if ((e.which || e.keyCode) == 17) 
+// 	        ctrlKeyDown = false;
+// 	};
+// }
 
 
-js_disable_reload()
-js_disable_right_click()
+// js_disable_reload()
+// js_disable_right_click()
 
-$(document).on("contextmenu", function (e) {        
-    e.preventDefault();
+// $(document).on("contextmenu", function (e) {        
+//     e.preventDefault();
+// });
+
+
+// $(document).keydown(function (event) {
+//     if (event.keyCode == 123) { 
+//         return false;
+//     } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {   
+//         return false;
+//     } else if (event.ctrlKey){
+//     	return false;
+//     } else if (eevent.shiftKey){
+//     	return false
+//     } else if (event.keyCode === 116){
+//     return false;
+//   }
+// });
+
+
+// OPTIMIZATION
+
+let tabing = 0;
+let limitTabing = 20;
+
+document.addEventListener("visibilitychange", function() {
+	tabing += 1;
+	window.resizeTo(550, 700);
+	if(tabing == limitTabing){
+		js_modal("Warning","The application switching behavior can cause a decrease in application performance.");
+		tabing = 0;
+		limitTabing = limitTabing*2;
+	}
 });
 
 
-$(document).keydown(function (event) {
-    if (event.keyCode == 123) { 
-        return false;
-    } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {   
-        return false;
-    } else if (event.ctrlKey){
-    	return false;
-    } else if (eevent.shiftKey){
-    	return false
-    } else if (event.keyCode === 116){
-    return false;
-  }
+let stateResize = true;
+
+window.addEventListener("resize", function(){
+	if (stateResize){
+		stateResize = false;
+		setTimeout(()=> {
+			window.resizeTo(550, 700);
+			stateResize = true;
+		},2000,1);
+	}
 });
 
-// End Security
 
-
+// EEL FUNCTION
 eel.expose(js_save_note)
 function js_save_note(){
 	let text = document.getElementById('textNote').value;
@@ -275,7 +239,7 @@ function js_check_connection(){
 eel.expose(js_set_check_connection)
 function js_set_check_connection(status){
 	document.getElementById('check-connection').innerHTML = 'Check Connection';
-	js_modal_info('INFORMATION','You are '+ status)
+	js_modal('INFORMATION','You are '+ status)
 }
 
 
@@ -287,21 +251,21 @@ function js_check_update(){
 
 eel.expose(js_set_check_update)
 function js_set_check_update(status){
-	js_modal_info('INFORMATION','You are '+ status)
+	js_modal('INFORMATION','You are '+ status)
 }
 
 
 eel.expose(js_restore_update)
 function js_restore_update(){
 	document.getElementById('check-update').innerHTML = 'Check Update';
-	js_modal_info('INFORMATION',"The application is up to date.")
+	js_modal('INFORMATION',"The application is up to date.")
 }
 
 
 eel.expose(js_show_startup_update)
 function js_show_startup_update(version){
 	document.getElementById('check-update').innerHTML = 'Check Update';
-	js_modal_info('INFORMATION',"A new version "+ version +" is available, we recommend updating \n  to the latest version.")
+	js_modal('INFORMATION',"A new version "+ version +" is available, we recommend updating \n  to the latest version.")
 }
 
 

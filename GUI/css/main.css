@@ -1,6 +1,15 @@
+.du-dialog .dlg-header {
+	color: #252422 !important;
+}
+
+.du-dialog .dlg-action{
+	color:#eb5e28 !important;
+}
+
 body {
-    background-image: url(/image/bg.png);
+    background-image: url(../image/bg.png);
     background-size: cover;
+    background-attachment: fixed;
 	color:white !important;
 	-webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -29,7 +38,7 @@ html {
 
 .toPath {
     color: #bbbbbb;
-	border-radius: .25rem;
+	/*border-radius: .25rem;*/
     padding: 8px;
     margin-left: 10px;
     margin-right: -10px;
@@ -89,16 +98,112 @@ html {
  	color: #bbbbbb !important;
 }
 
+.action-button {
+    background: rgba(255, 255, 255, .15);
+    display: block;
+    width: 50px;
+    height: 107px;
+    line-height: 23px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: -9%;
+    text-decoration: none;
+    transition: ease all 0.3s;
+    position: fixed;
+    right: -7px;
+    bottom: 80.5%;
+}
+
+.act-btn-info {
+    background: transparent;
+    display: block;
+    width: 25px;
+    height: 25px;
+    line-height: 23px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-decoration: none;
+    transition: ease all 0.3s;
+    position: fixed;
+    right: 9px;
+    bottom: 91.5%;
+}
+
+.act-btn-github {
+    background: transparent;
+    display: block;
+    width: 25px;
+    height: 25px;
+    line-height: 23px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-decoration: none;
+    transition: ease all 0.3s;
+    position: fixed;
+    right: 9px;
+    bottom: 86.5%;
+}
+
+.act-btn-package {
+    background: transparent;
+    display: block;
+    width: 25px;
+    height: 25px;
+    line-height: 23px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-decoration: none;
+    transition: ease all 0.3s;
+    position: fixed;
+    right: 9px;
+    bottom: 81.5%;
+}
+
 /*CUSTOM BOOTSTRAP*/
+
+.alert {
+    border-radius: 0px;
+}
+
+.btn {
+	border-radius: 0px !important;
+}
+
+.form-control {
+	border-radius: 0px !important;
+}
+
+.form-check-input[type=checkbox] {
+     border-radius: 0px !important; 
+}
+
+.badge{
+	border-radius: 0px !important; 
+}
+
+.nav-tabs .nav-link {
+     border-top-left-radius: 0px !important; 
+     border-top-right-radius: 0px !important; 
+}
+
 a {
 	color: white !important;
 }
 
-.btn-info {
-    color: white !important;
-    background-color: #0dcaf0;
-    border-color: #0dcaf0;
-}
 
 a.active  {
 	color: black !important;
@@ -107,23 +212,16 @@ a.active  {
 nav-link.active {
 	color: black !important;
 }
+
 .btn-info {
     color: white !important;
-    border: 2px solid #087e8b !important;
+    border: 2px solid #087e8b;
     background-color: rgb(75 143 151 / 36%) !important;
     backdrop-filter: blur(5px) !important;
 }
 
 .btn-info:hover {
-	-webkit-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
-	-moz-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
-	box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
-}
-
-.btn-primary:hover {
-	-webkit-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
-	-moz-box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
-	box-shadow: 0px 0px 25px 4px rgba(0,220,176,0.15);
+	transition: all .2s;
 }
 
 
@@ -134,12 +232,54 @@ nav-link.active {
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: white !important;
     background-color: #21282d !important;
-     border-color: transparent !important; 
+	border-color: transparent !important; 
+	transition: border-color 1s;
 }
 
 .card-text:last-child {
     font-weight: 300 !important;
 }
+
+@media (min-width: 576px) {
+.container, .container-sm {
+    max-width: 728px !important;
+}
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
+	border-color: transparent;
+	border-bottom: 2px solid #fff;
+}
+
+
+/* ANIMATION */
+
+.nav-item span {
+	display: none;
+  }
+
+.nav-item .active span {
+	display: inline-block;
+}
+
+.nav-item i {
+	display: inline-block;
+}
+
+.nav-item .active i {
+	display: none;
+}
+
+
+.tab-pane.fade {
+	transition: all .1s;
+	transform: translateY(1rem);
+}
+  
+.tab-pane.fade.show {
+	transform: translateY(0rem);
+}
+
 
 /*Security*/
 
